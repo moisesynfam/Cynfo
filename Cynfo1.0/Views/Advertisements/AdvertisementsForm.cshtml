@@ -1,0 +1,108 @@
+﻿
+@model Cynfo1._0.ViewModels.AdFormViewModel
+@{
+    ViewBag.Title = "Nuevo Anuncio";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+ 
+
+
+@if (!Model.Beacons.Any())
+{
+    <p>No se ha definido ningun Area para publicar este anuncio</p>
+}
+else
+{
+    <br/>
+    <br/>
+    <div class="w3-row">
+        <div class="w3-col w3-container" style="width: 20%"> </div>
+        
+        <div class="w3-col" style="width: 60%">
+            <div class="w3-container w3-teal">
+                @if (Model.Advertisement.Id == 0)
+                {
+                    <h2>
+                        Nuevo Anuncio
+                    </h2>
+                }
+                else
+                {
+                    <h2>
+                        Editar Anuncio
+                    </h2>
+                }
+                
+            </div>
+            
+            <div class="w3-container w3-card-4">
+                @using (Html.BeginForm("Save", "Advertisements", FormMethod.Post, new {enctype = "multipart/form-data"}))
+                {
+                    <br/>
+                    @Html.ValidationSummary()
+                    <div class="form-group" style="width: 100%">
+                        @Html.LabelFor(m=>m.Advertisement.Title)
+                        @Html.TextBoxFor(m => m.Advertisement.Title, new {@class = "form-control", @Style = "width:100%"})
+                        @Html.ValidationMessageFor(m => m.Advertisement.Title)
+
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Advertisement.Description)
+                        @Html.TextAreaFor(m => m.Advertisement.Description, new {@class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Advertisement.Description)
+
+                    </div>
+                    if (Model.Advertisement.Id != 0)
+                     {
+                        <br/>
+                         <div class="w3-container" style="max-width: 250px">
+                             <img src="@Model.Advertisement.MediaURL" class="w3-animate-zoom" alt="Anuncio" style="width: 100%"/>
+
+                         </div>
+                        <br />
+                    }
+                    <div class="form-group">
+                       
+                        @Html.DropDownListFor(m => m.Advertisement.BeaconId, new SelectList(Model.Beacons, "Id", "AreaName"), "-Seleccione el Area-", new {@class = "form-control w3-select"})
+                        @Html.ValidationMessageFor(m => m.Advertisement.BeaconId)
+
+                    </div>
+                    if (Model.Advertisement.Id != 0)
+                    {
+                        <div class="form-group">
+                            <label> Imagen del Anuncio</label>
+                            <input type="file" name="photo"/>
+                           
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            <label> Imagen del Anuncio</label>
+
+                            <input type="file" name="photo" class="" data-val="true" data-val-required ="La imagen es obligatoria"/>
+                            <span class="field-validation-valid" data-valmsg-for="photo" data-valmsg-replace="true"></span>
+                        </div>
+                    }
+                    @Html.HiddenFor(m => m.Advertisement.Id)
+                    @Html.AntiForgeryToken()
+
+
+
+                    <button type="submit" class="w3-btn">Guardar</button>
+                }
+            </div>
+            <div class="w3-col" style="width: 20%"> </div>
+        </div>
+
+      </div>
+
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+}

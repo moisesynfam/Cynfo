@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Cynfo1._0.AzureUtils;
 
 namespace Cynfo1._0
 {
@@ -16,6 +17,9 @@ namespace Cynfo1._0
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            PhotoService ps = new PhotoService();
+            ps.CreateAndConfigureAsync();
+
         }
     }
 }

@@ -1,0 +1,40 @@
+﻿
+@model Cynfo1._0.Models.Beacon
+@{
+    ViewBag.Title = "Agregar Beacon";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Nuevo Beacon</h2>
+
+@using (Html.BeginForm("Save", "Beacons"))
+{
+    @Html.ValidationSummary("Por favor verifique los siguientes errores")
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.MACAddress)
+        @Html.TextBoxFor(m => m.MACAddress, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.MACAddress)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.AreaId)
+        @Html.TextBoxFor(m => m.AreaId, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.AreaId)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.AreaName)
+        @Html.TextBoxFor(m => m.AreaName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.AreaName)
+    </div>
+    @Html.HiddenFor(m => m.Id)
+    @Html.AntiForgeryToken()
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+
+
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

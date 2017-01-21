@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Cynfo1._0.Models.Beacon>
+
+@{
+    ViewBag.Title = "Beacons & Areas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<h2>Beacons & Areas</h2>
+<br/>
+@if (!Model.Any())
+{
+    <p>
+        No se ha agregado ningun Beacon aun.
+    </p>
+}
+else
+{
+    <table class="w3-table w3-bordered w3-border w3-hoverable w3-card-4 w3-">
+        <thead>
+        <tr class="w3-blue">
+            <th>Area</th>
+            <th>ID Area</th>
+            <th>Beacon Asignado</th>
+            <th></th>
+        </tr>
+        <tbody>
+            @foreach (var beacon in Model)
+            {
+                    <tr>
+                        <td>@beacon.AreaName</td>
+                        <td>@beacon.AreaId</td>
+                        <td>@beacon.MACAddress</td>
+                        <td>
+
+                            <div class="w3-row">
+                                <div class="w3-container w3-half">
+                                    <a href="@Url.Action("Edit", "Beacons", new {id = beacon.Id})" class="btn btn-success w3-left">Editar</a>
+                                    <a href="@Url.Action("Edit", "Beacons", new {id = beacon.Id})" class="btn btn-warning w3-right">Borrar</a>
+                                </div>
+                               
+                                </div>
+                        </td>
+                    </tr>
+              
+
+            }
+        </tbody>
+    </table>
+}
+<br/>
+<a href="@Url.Action("Create","Beacons")" class="btn btn-primary">Nuevo</a>
+
