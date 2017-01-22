@@ -16,11 +16,11 @@
 }
 else
 {
-    <div class="w3-row-padding">
+    <div class="w3-row-padding" id="card_container">
 
         @foreach (var advertisement in Model.Advertisements.Reverse())
         {
-            <div class="w3-third w3-padding-12">
+            <div class="w3-third w3-padding-12" id="card-@advertisement.Id">
                 <div class="w3-card-4" style="width: 92%; max-width: 350px;">
                     <div></div>
                     <img src="@advertisement.MediaURL" style="width: 100%;"/>
@@ -42,7 +42,7 @@ else
                         }
                         <div class="w3-btn-group" style="width: 100%">
 
-                            <a href="@Url.Action("Delete", "Advertisements", new {id = advertisement.Id})" class="w3-btn-block w3-btn w3-light-grey" style="width: 50%">Borrar</a>
+                           <button data-ad-id="@advertisement.Id" class="w3-btn js-delete">Borrar</button>
                             <a href="@Url.Action("Edit", "Advertisements", new {id = advertisement.Id})" class="w3-btn-block w3-btn w3-light-blue" style="width: 50%">Editar</a>
                         </div>
 
@@ -60,6 +60,30 @@ else
     </div>
                             }
 <br />
+@section scripts
+{
+    <script>
+        $(document)
+            .ready(function () {
+                $("#card_container .js-delete").on("click", function() {
+                    var button = $(this);
+                    if (confirm("Quieres Borrar tu anuncio?")) {
+                        $.ajax({
+                            url: "/api/advertisements/" + button.attr("data-ad-id"),
+                            method: "DELETE",
+                            success: function() {
+                                $("#card-" + button.attr("data-ad-id")).remove();
+                            }
+                        });
+                    }
+                });
+
+
+            });
+
+    </script>
+
+}
 
 
 
