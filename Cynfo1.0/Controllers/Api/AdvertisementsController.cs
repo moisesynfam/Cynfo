@@ -5,6 +5,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Configuration;
 using System.Web.Http;
+using AutoMapper;
+using Cynfo1._0.Dtos;
 using Cynfo1._0.Models;
 
 namespace Cynfo1._0.Controllers.Api
@@ -19,20 +21,23 @@ namespace Cynfo1._0.Controllers.Api
         }
 
         // GET /api/customers
-        public IEnumerable<Advertisement> GetAdvertisements()
+        public IEnumerable<AdvertisementDto> GetAdvertisements()
         {
-            return _context.Advertisements.ToList();
+
+            return _context.Advertisements.ToList().
+                Select(Mapper.Map<Advertisement,AdvertisementDto>);
         }
 
         //GET /api/customers/1
-        public Advertisement GetAdvertisement(int id)
+        public AdvertisementDto GetAdvertisement(int id)
         {
             var advertisement = _context.Advertisements.SingleOrDefault(a => a.Id == id);
 
             if (advertisement == null)
                 throw new HttpResponseException(HttpStatusCode.NotFound);
 
-            return advertisement;
+            return Mapper.Map<Advertisement,AdvertisementDto>(advertisement);
+
 
 
 
@@ -40,24 +45,27 @@ namespace Cynfo1._0.Controllers.Api
 
         // POST /api/customers
         [HttpPost]
-        public Advertisement CreateAdvertisement(Advertisement advertisement)
+        public AdvertisementDto CreateAdvertisement(AdvertisementDto advertisementDto)
         {
 
             if (!ModelState.IsValid)
             {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
+            var advertisement = Mapper.Map<AdvertisementDto, Advertisement>(advertisementDto);
 
             _context.Advertisements.Add(advertisement);
             _context.SaveChanges();
-            return advertisement;
+
+            advertisementDto.Id = advertisement.Id;
+            return advertisementDto;
 
 
         }
 
         //PUT /api/customers/1
 
-        public void UpdateAdvertisement(int id, Advertisement advertisement)
+        public void UpdateAdvertisement(int id, AdvertisementDto advertisementDto)
         {
             if (!ModelState.IsValid)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
@@ -68,7 +76,8 @@ namespace Cynfo1._0.Controllers.Api
             if (adInDB == null)
                 throw new HttpResponseException(HttpStatusCode.NotFound);
 
-            adInDB = advertisement;
+            Mapper.Map(advertisementDto, adInDB);
+
             _context.SaveChanges();
 
         }
