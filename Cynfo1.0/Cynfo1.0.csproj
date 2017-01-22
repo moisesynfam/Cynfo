@@ -277,11 +277,13 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdvertisementsController.cs" />
     <Compile Include="Controllers\Api\AdvertisementsController.cs" />
+    <Compile Include="Controllers\Api\BeaconsController.cs" />
     <Compile Include="Controllers\Beacons1Controller.cs" />
     <Compile Include="Controllers\BeaconsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Dtos\AdvertisementDto.cs" />
+    <Compile Include="Dtos\BeaconDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

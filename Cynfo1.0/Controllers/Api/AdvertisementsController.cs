@@ -21,11 +21,13 @@ namespace Cynfo1._0.Controllers.Api
         }
 
         // GET /api/customers
-        public IEnumerable<AdvertisementDto> GetAdvertisements()
+        public IHttpActionResult GetAdvertisements()
         {
 
-            return _context.Advertisements.ToList().
+            var advertisementDtos = _context.Advertisements.ToList().
                 Select(Mapper.Map<Advertisement,AdvertisementDto>);
+
+            return Ok(advertisementDtos);
         }
 
         //GET /api/customers/1
@@ -63,37 +65,39 @@ namespace Cynfo1._0.Controllers.Api
         }
 
         //PUT /api/customers/1
-
-        public void UpdateAdvertisement(int id, AdvertisementDto advertisementDto)
+        [HttpPut]
+        public IHttpActionResult UpdateAdvertisement(int id, AdvertisementDto advertisementDto)
         {
             if (!ModelState.IsValid)
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return BadRequest();
             
 
             var adInDB = _context.Advertisements.SingleOrDefault(a => a.Id == id);
 
             if (adInDB == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
 
             Mapper.Map(advertisementDto, adInDB);
 
             _context.SaveChanges();
 
+            return Ok();
+
         }
 
         [HttpDelete]
-        public void DeleteAdvertisement(int id)
+        public IHttpActionResult DeleteAdvertisement(int id)
         {
             var adInDB = _context.Advertisements.SingleOrDefault(a => a.Id == id);
 
             if (adInDB == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
 
             _context.Advertisements.Remove(adInDB);
             _context.SaveChanges();
 
 
-
+            return Ok();
 
         }
 
