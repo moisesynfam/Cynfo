@@ -29,14 +29,14 @@ namespace Cynfo1._0.Controllers.Api
         }
 
         //GET /api/customers/1
-        public AdvertisementDto GetAdvertisement(int id)
+        public IHttpActionResult GetAdvertisement(int id)
         {
             var advertisement = _context.Advertisements.SingleOrDefault(a => a.Id == id);
 
             if (advertisement == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
 
-            return Mapper.Map<Advertisement,AdvertisementDto>(advertisement);
+            return Ok(Mapper.Map<Advertisement,AdvertisementDto>(advertisement));
 
 
 
@@ -45,20 +45,19 @@ namespace Cynfo1._0.Controllers.Api
 
         // POST /api/customers
         [HttpPost]
-        public AdvertisementDto CreateAdvertisement(AdvertisementDto advertisementDto)
+        public IHttpActionResult CreateAdvertisement(AdvertisementDto advertisementDto)
         {
 
             if (!ModelState.IsValid)
-            {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
-            }
+                return BadRequest();
+            
             var advertisement = Mapper.Map<AdvertisementDto, Advertisement>(advertisementDto);
 
             _context.Advertisements.Add(advertisement);
             _context.SaveChanges();
 
             advertisementDto.Id = advertisement.Id;
-            return advertisementDto;
+            return Created(new Uri(Request.RequestUri + "/"+ advertisement.Id), advertisementDto);
 
 
         }
