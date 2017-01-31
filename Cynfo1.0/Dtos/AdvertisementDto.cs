@@ -29,6 +29,7 @@ namespace Cynfo1._0.Dtos
         [Required]
         public int BeaconId { get; set; }
 
+        public BeaconDto Beacon { get; set; }   
        
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Data.Entity;
 using AutoMapper;
 using Cynfo1._0.Dtos;
 using Cynfo1._0.Models;
@@ -23,7 +24,8 @@ namespace Cynfo1._0.Controllers.Api
 
         public IHttpActionResult GetBeacons()
         {
-            var beaconDtos = _context.Beacons.ToList()
+            var beaconDtos = _context.Beacons
+                .ToList()
                 .Select(Mapper.Map<Beacon, BeaconDto>);
 
             return Ok(beaconDtos);

@@ -65,17 +65,22 @@ else
     <script>
         $(document)
             .ready(function () {
-                $("#card_container .js-delete").on("click", function() {
+               
+                $("#card_container").on("click",".js-delete", function() {
                     var button = $(this);
-                    if (confirm("Quieres Borrar tu anuncio?")) {
-                        $.ajax({
-                            url: "/api/advertisements/" + button.attr("data-ad-id"),
-                            method: "DELETE",
-                            success: function() {
-                                $("#card-" + button.attr("data-ad-id")).remove();
-                            }
-                        });
-                    }
+                    bootbox.confirm("Desea eliminar este anuncio?", function(result) {
+                        if (result) {
+                            $.ajax({
+                                url: "/api/advertisements/" + button.attr("data-ad-id"),
+                                method: "DELETE",
+                                success: function () {
+                                    $("#card-" + button.attr("data-ad-id")).remove();
+                                }
+                            });
+                            
+                        }
+                    });
+                  
                 });
 
 

@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Cynfo1._0.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Cynfo1._0.Controllers
 {
@@ -136,7 +137,7 @@ namespace Cynfo1._0.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+        
         public ActionResult Register()
         {
             return View();
@@ -145,7 +146,7 @@ namespace Cynfo1._0.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
+        [[Authorize(Roles = UserRoles.GeneralAdmin)]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
@@ -155,7 +156,9 @@ namespace Cynfo1._0.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+
+
+                await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // Para obtener más información sobre cómo habilitar la confirmación de cuenta y el restablecimiento de contraseña, visite http://go.microsoft.com/fwlink/?LinkID=320771
                     // Enviar correo electrónico con este vínculo

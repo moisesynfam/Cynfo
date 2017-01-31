@@ -8,6 +8,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <h2>Beacons & Areas</h2>
+
+<a href="@Url.Action("Create","Beacons")" class="btn btn-primary">Nuevo</a>
+<br/>
 <br/>
 @if (!Model.Any())
 {
@@ -17,7 +20,7 @@
 }
 else
 {
-    <table class="w3-table w3-bordered w3-border w3-hoverable w3-card-4 w3-">
+    <table id ="beacons-table"class="w3-table w3-bordered w3-border w3-hoverable w3-card-4 w3-">
         <thead>
         <tr class="w3-blue">
             <th>Area</th>
@@ -37,10 +40,11 @@ else
                             <div class="w3-row">
                                 <div class="w3-container w3-half">
                                     <a href="@Url.Action("Edit", "Beacons", new {id = beacon.Id})" class="btn btn-success w3-left">Editar</a>
-                                    <a href="@Url.Action("Edit", "Beacons", new {id = beacon.Id})" class="btn btn-warning w3-right">Borrar</a>
+                                    <button data-beacon-id="@beacon.Id" class="btn btn-danger js-delete w3-right">Borrar</button>
+                                    
                                 </div>
-                               
-                                </div>
+
+                            </div>
                         </td>
                     </tr>
               
@@ -50,5 +54,32 @@ else
     </table>
 }
 <br/>
-<a href="@Url.Action("Create","Beacons")" class="btn btn-primary">Nuevo</a>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function() {
+            $("#beacons-table").on("click", ".js-delete", function () {
+                var button = $(this);
+                bootbox.confirm("Desea eliminar este beacon?", function(result) {
+                    if (result) {
+                        $.ajax({    
+                            url: "/api/beacons/" + button.attr("data-beacon-id"),
+                            method: "DELETE",
+                            success: function() {
+                                button.parents("tr").remove();
+                            }
+                        });
+                    }
+                });
+
+            });
+
+
+        });
+
+    </script>
+
+}
+
 

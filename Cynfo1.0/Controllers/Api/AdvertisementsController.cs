@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Data.Entity;
 using System.Web.Configuration;
 using System.Web.Http;
 using AutoMapper;
@@ -24,8 +25,10 @@ namespace Cynfo1._0.Controllers.Api
         public IHttpActionResult GetAdvertisements()
         {
 
-            var advertisementDtos = _context.Advertisements.ToList().
-                Select(Mapper.Map<Advertisement,AdvertisementDto>);
+            var advertisementDtos = _context.Advertisements
+                .Include(a => a.Beacon)
+                .ToList()
+                .Select(Mapper.Map<Advertisement,AdvertisementDto>);
 
             return Ok(advertisementDtos);
         }
