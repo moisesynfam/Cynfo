@@ -34,11 +34,12 @@ namespace Cynfo1._0
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/bootbox.js",
-                      "~/Scripts/respond.js"));
+                     "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/datatables/css/datables.bootstrap.css",
+                      "~/Content/font-awesome.min.css",
                       "~/Content/site.css"
                       
                       ));

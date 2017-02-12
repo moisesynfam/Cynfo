@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Nuevo Anuncio";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
 
@@ -37,74 +38,85 @@ else
             </div>
 
             <div class="w3-container w3-card-4">
-                @using (Html.BeginForm("Save", "Advertisements", FormMethod.Post, new { enctype = "multipart/form-data" , id="adsForm"}))
+                @using (Html.BeginForm("Save", "Advertisements", FormMethod.Post, new { enctype = "multipart/form-data", id = "adsForm" }))
                 {
-
-                    <br />
-                        @Html.ValidationSummary()
-
-                        <div class="form-group" style="width: 100%">
-                            @Html.LabelFor(m => m.Advertisement.Title)
-                            @Html.TextBoxFor(m => m.Advertisement.Title, new { @class = "form-control", @Style = "width:100%" })
-                            @Html.ValidationMessageFor(m => m.Advertisement.Title)
-
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.Advertisement.Description)
-                            @Html.TextAreaFor(m => m.Advertisement.Description, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Advertisement.Description)
-
-                        </div>
-                    if (Model.Advertisement.Id != 0)
-                    {
+                    <div class="form-horizontal">
                         <br />
-                        <div class="w3-container" style="max-width: 250px">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Advertisement.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(m => m.Advertisement.Title, new { @class = "form-control", @Style = "width:100%" })
+                                @Html.ValidationMessageFor(m => m.Advertisement.Title)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Advertisement.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(m => m.Advertisement.Description, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Advertisement.Description)
+                            </div>
+
+                        </div>
+
+                        @if (Model.Advertisement.Id != 0)
+                        {
+                        <br />
+                        <div class="w3-container">
                             <img src="@Model.Advertisement.MediaURL" class="w3-animate-zoom" alt="Anuncio" style="width: 100%" />
 
                         </div>
                         <br />
-                    }
-                    <div class="form-group">
+                        }
 
-                        @Html.DropDownListFor(m => m.Advertisement.BeaconId, new SelectList(Model.Beacons, "Id", "AreaName"), "-Seleccione el Area-", new { @class = "form-control w3-select" })
-                        @Html.ValidationMessageFor(m => m.Advertisement.BeaconId)
-
-                    </div>
-                    if (Model.Advertisement.Id != 0)
-                    {
                         <div class="form-group">
-                            <label> Imagen del Anuncio</label>
+
+                            @Html.DropDownListFor(m => m.Advertisement.BeaconId, new SelectList(Model.Beacons, "Id", "AreaName"), "-Seleccione el Area-", new { @class = "form-control w3-select col-md-12" })
+                            @Html.ValidationMessageFor(m => m.Advertisement.BeaconId)
+
+                        </div>
+
+                        @if (Model.Advertisement.Id != 0)
+                        {
+                        <div class="form-group">
+                            <label class="control-label"> Imagen del Anuncio</label>
                             <input type="file" name="photo" />
 
                         </div>
-                    }
-                    else
-                    {
+                        }
+                        else
+                        {
                         <div class="form-group">
-                            <label> Imagen del Anuncio</label>
-
-                            <input type="file" name="photo" class="" data-val="true" data-val-required="La imagen es obligatoria" />
+                            <label class="control-label col-md-2"> Imagen del Anuncio</label>
+                            <input type="file" name="photo" class="col-md-10" data-val="true" data-val-required="La imagen es obligatoria" />
                             <span class="field-validation-valid" data-valmsg-for="photo" data-valmsg-replace="true"></span>
                         </div>
-                    }
-                    @Html.HiddenFor(m => m.Advertisement.Id)
-                    @Html.AntiForgeryToken()
+                        }
+                        @Html.HiddenFor(m => m.Advertisement.Id)
+                        @Html.AntiForgeryToken()
 
 
 
-                    <button type="submit" class="w3-btn">Guardar</button>
+                        <button type="submit" class="w3-btn">Guardar</button>
+                    </div>
 
                 }
-
             </div>
+
+
             <div class="w3-col" style="width: 20%"> </div>
         </div>
-
     </div>
 
 }
+            
+   
 
-@section scripts
+        
+
+        @section scripts
 {
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/jqueryval")
@@ -121,8 +133,12 @@ else
                     e.preventDefault();
                     var dialog = bootbox.dialog({
 
-                        message: '<i class="fa fa-spin fa-spinner"></i> <p class="text-center">Espere mientras se procesa el Anuncio</p>',
-                        closeButton: false
+                        message: '<div class="w3-center">' +
+                            '<div class=""><i class="fa fa-cog fa-spin fa-3x fa-fw"></i></div>' +
+                            '<p class="">Espere mientras se publica el anuncio</p>' +
+                            '</div> ',
+                        closeButton: false,
+                        title: '<div class="w3-center">Procesando Anuncio</div>'
 
                     });
 
@@ -151,6 +167,7 @@ else
                     });
 
                 } else {
+                    
                     console.log("Invalid");
                     return null;
                 }
