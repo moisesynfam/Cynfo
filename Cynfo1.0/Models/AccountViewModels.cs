@@ -64,6 +64,12 @@ namespace Cynfo1._0.Models
 
     public class RegisterViewModel
     {
+
+        [Required]
+        [StringLength(100,ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}",MinimumLength = 6)]
+        [Display(Name = "Nombre de la Compañia o Negocio")]
+        public string CompanyName { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Correo electrónico")]

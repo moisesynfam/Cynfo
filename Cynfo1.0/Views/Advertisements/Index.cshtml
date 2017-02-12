@@ -5,9 +5,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Anuncios</h2>
-<br />
-<a href="@Url.Action("Create","Advertisements")" class="btn btn-primary">Nuevo</a>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<br/>
+<div class="w3-container w3-center w3-border-blue">
+    <h2 class="w3-xxlarge">Anuncios Publicados</h2>
+    <br />
+    <a href="@Url.Action("Create", "Advertisements")" class="w3-btn-floating w3-teal">
+        <i class="fa fa-plus"></i>
+    </a>
+
+</div>
+
 <hr />
 @if (!Model.Advertisements.Any())
 {
@@ -22,7 +30,7 @@ else
         {
             <div class="w3-third w3-padding-12" id="card-@advertisement.Id">
                 <div class="w3-card-4" style="width: 92%; max-width: 350px;">
-                    <div></div>
+                    
                     <img src="@advertisement.MediaURL" style="width: 100%;"/>
                     <div class="w3-container">
                         <h4><b>@advertisement.Title</b></h4>
@@ -40,12 +48,16 @@ else
                         {
                             <p>No se ha especificado ningun area</p>
                         }
-                        <div class="w3-btn-group" style="width: 100%">
+                        
+                       
+                        
+                    </div>
+                    
 
-                           <button data-ad-id="@advertisement.Id" class="w3-btn js-delete">Borrar</button>
-                            <a href="@Url.Action("Edit", "Advertisements", new {id = advertisement.Id})" class="w3-btn-block w3-btn w3-light-blue" style="width: 50%">Editar</a>
-                        </div>
+                    <div class="w3-btn-group w3-row">
 
+                        <button data-ad-id="@advertisement.Id" class="w3-btn js-delete w3-col m6 w3-teal">Borrar</button>
+                        <a href="@Url.Action("Edit", "Advertisements", new {id = advertisement.Id})" class="w3-btn-block w3-btn w3-teal m6 w3-col">Editar</a>
 
 
 
@@ -68,6 +80,7 @@ else
                
                 $("#card_container").on("click",".js-delete", function() {
                     var button = $(this);
+                    
                     bootbox.confirm("Desea eliminar este anuncio?", function(result) {
                         if (result) {
                             $.ajax({

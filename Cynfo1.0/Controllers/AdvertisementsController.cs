@@ -152,6 +152,8 @@ namespace Cynfo1._0.Controllers
         }
 
 
+
+
         public ActionResult Edit(int id)
         {
             var advertisement = _context.Advertisements.SingleOrDefault(c => c.Id == id);

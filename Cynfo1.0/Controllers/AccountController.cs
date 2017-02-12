@@ -146,19 +146,21 @@ namespace Cynfo1._0.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [[Authorize(Roles = UserRoles.GeneralAdmin)]
+        [Authorize(Roles = UserRoles.GeneralAdmin)]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, CompanyName = model.CompanyName};
+
                 var result = await UserManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
 
 
-                await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                //wait SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // Para obtener más información sobre cómo habilitar la confirmación de cuenta y el restablecimiento de contraseña, visite http://go.microsoft.com/fwlink/?LinkID=320771
                     // Enviar correo electrónico con este vínculo

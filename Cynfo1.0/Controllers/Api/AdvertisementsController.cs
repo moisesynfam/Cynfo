@@ -4,11 +4,15 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Data.Entity;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Configuration;
 using System.Web.Http;
 using AutoMapper;
+using Cynfo1._0.AzureUtils;
 using Cynfo1._0.Dtos;
 using Cynfo1._0.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace Cynfo1._0.Controllers.Api
 {
@@ -50,13 +54,22 @@ namespace Cynfo1._0.Controllers.Api
 
         // POST /api/customers
         [HttpPost]
-        public IHttpActionResult CreateAdvertisement(AdvertisementDto advertisementDto)
+        public async Task <IHttpActionResult> CreateAdvertisement(AdvertisementDto advertisementDto, HttpPostedFileBase photo)
         {
 
             if (!ModelState.IsValid)
                 return BadRequest();
             
             var advertisement = Mapper.Map<AdvertisementDto, Advertisement>(advertisementDto);
+            if (advertisement.Id == 0 && photo!=null)
+            {
+                PhotoService photoservice = new PhotoService();
+                advertisement.MediaURL = await photoservice.UploadPhotoAsync(photo);
+                advertisement.UploadedDate = DateTime.UtcNow;
+              
+
+            }
+
 
             _context.Advertisements.Add(advertisement);
             _context.SaveChanges();

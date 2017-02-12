@@ -17,7 +17,9 @@ namespace Cynfo1._0
                         "~/Scripts/bootbox.js",
                         "~/Scripts/respond.js",
                         "~/Scripts/datatables/jquery.datatables.js",
-                        "~/Scripts/datatables/datatables.bootstrap.js"
+                        "~/Scripts/datatables/datatables.bootstrap.js",
+                         "~/Scripts/jquery.validate.js",
+                         "~/Scripts/jquery.validate.unobtrusive.js"
 
                         ));
 

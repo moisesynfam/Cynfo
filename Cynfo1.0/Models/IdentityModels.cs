@@ -1,5 +1,8 @@
-﻿using System.Data.Entity;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity;
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -16,6 +19,11 @@ namespace Cynfo1._0.Models
             // Agregar aquí notificaciones personalizadas de usuario
             return userIdentity;
         }
+
+        public string CompanyName { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int CompanyIdentifier  { get; set; } 
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

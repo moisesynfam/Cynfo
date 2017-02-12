@@ -1,11 +1,12 @@
-﻿@model Cynfo1._0.ViewModels.AdFormViewModel
+﻿
+@model Cynfo1._0.ViewModels.AdFormViewModel
 @{
     ViewBag.Title = "Nuevo Anuncio";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
-
+ 
 
 
 @if (!Model.Beacons.Any())
@@ -14,11 +15,11 @@
 }
 else
 {
-    <br />
-    <br />
+    <br/>
+    <br/>
     <div class="w3-row">
         <div class="w3-col w3-container" style="width: 20%"> </div>
-
+        
         <div class="w3-col" style="width: 60%">
             <div class="w3-container w3-teal">
                 @if (Model.Advertisement.Id == 0)
@@ -33,14 +34,14 @@ else
                         Editar Anuncio
                     </h2>
                 }
-
+                
             </div>
-
+            
             <div class="w3-container w3-card-4">
-                @using (Html.BeginForm("Save", "Advertisements", FormMethod.Post, new { enctype = "multipart/form-data" , id="adsForm"}))
+                @using (Html.BeginForm("Save", "Advertisements", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
-
-                    <br />
+                   
+                        <br />
                         @Html.ValidationSummary()
 
                         <div class="form-group" style="width: 100%">
@@ -55,115 +56,80 @@ else
                             @Html.ValidationMessageFor(m => m.Advertisement.Description)
 
                         </div>
-                    if (Model.Advertisement.Id != 0)
-                    {
+                        if (Model.Advertisement.Id != 0)
+                        {
                         <br />
                         <div class="w3-container" style="max-width: 250px">
                             <img src="@Model.Advertisement.MediaURL" class="w3-animate-zoom" alt="Anuncio" style="width: 100%" />
 
                         </div>
                         <br />
-                    }
-                    <div class="form-group">
+                        }
+                        <div class="form-group">
 
-                        @Html.DropDownListFor(m => m.Advertisement.BeaconId, new SelectList(Model.Beacons, "Id", "AreaName"), "-Seleccione el Area-", new { @class = "form-control w3-select" })
-                        @Html.ValidationMessageFor(m => m.Advertisement.BeaconId)
+                            @Html.DropDownListFor(m => m.Advertisement.BeaconId, new SelectList(Model.Beacons, "Id", "AreaName"), "-Seleccione el Area-", new { @class = "form-control w3-select" })
+                            @Html.ValidationMessageFor(m => m.Advertisement.BeaconId)
 
-                    </div>
-                    if (Model.Advertisement.Id != 0)
-                    {
+                        </div>
+                        if (Model.Advertisement.Id != 0)
+                        {
                         <div class="form-group">
                             <label> Imagen del Anuncio</label>
                             <input type="file" name="photo" />
 
                         </div>
-                    }
-                    else
-                    {
+                        }
+                        else
+                        {
                         <div class="form-group">
                             <label> Imagen del Anuncio</label>
 
                             <input type="file" name="photo" class="" data-val="true" data-val-required="La imagen es obligatoria" />
                             <span class="field-validation-valid" data-valmsg-for="photo" data-valmsg-replace="true"></span>
                         </div>
-                    }
-                    @Html.HiddenFor(m => m.Advertisement.Id)
-                    @Html.AntiForgeryToken()
+                        }
+                        @Html.HiddenFor(m => m.Advertisement.Id)
+                        @Html.AntiForgeryToken()
 
 
 
-                    <button type="submit" class="w3-btn">Guardar</button>
-
+                        <button id="submit-btn" type="submit" class="w3-btn">Guardar</button>
+      
                 }
 
             </div>
             <div class="w3-col" style="width: 20%"> </div>
         </div>
 
-    </div>
+      </div>
 
 }
 
 @section scripts
 {
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/jqueryval")
-    
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
 
     <script>
-
         $(document).ready(function() {
-            $('#adsForm').on('submit', function (e) {
-                var form = $("#adsForm");
-                form.validate();
 
-                if (form.valid()) {
-                    e.preventDefault();
-                    var dialog = bootbox.dialog({
+            $("#submit-btn").on("click", function (e) {
 
-                        message: '<i class="fa fa-spin fa-spinner"></i> <p class="text-center">Espere mientras se procesa el Anuncio</p>',
-                        closeButton: false
-
-                    });
-
-                    var url = $(this).attr("action");
-                    console.log(url);
-                    var formData = new FormData($(this)[0]);
-                    $.ajax({
-                        url: url,
-                        type: "POST",
-                        data: formData,
-                        success: function (resp) {
-                            console.log("Created Succesfully");
-
-                            window.location.href = '/Advertisements/Index';
-
-                        },
-                        contentType: false,
-                        processData: false,
-                        error: function (jqXHR, status, error) {
-                            console.log(jqXHR);
-                            console.log(status);
-                            console.log(error);
-
-                        }
-
-                    });
-
-                } else {
-                    console.log("Invalid");
-                    return null;
-                }
-
-              
+                e.stopImmediatePropagation();
+                console.log("clicked");
+                var dialog = bootbox.dialog({
+                    title: 'A custom dialog with init',
+                    message: '<p><i class="fa fa-spin fa-spinner"></i> Loading...</p>'
+                });
                
 
             });
-
 
         });
 
 
     </script>
+
+    
 
 }
