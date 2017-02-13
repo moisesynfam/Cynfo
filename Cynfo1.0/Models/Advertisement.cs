@@ -21,7 +21,11 @@ namespace Cynfo1._0.Models
 
         public DateTime UploadedDate { get; set; }
 
-        
+        [Display(Name = "Fecha de Expiración")]
+        public DateTime? ExpirationDate { get; set; }
+
+        public Boolean isExpired { get; set; }
+
         public string MediaURL { get; set; }
 
         [Required]
@@ -30,8 +34,17 @@ namespace Cynfo1._0.Models
 
         public Beacon Beacon { get; set; }
 
+        public TimeSpan GetPublishedTimeSpan()
+        {
+            TimeSpan timeSpan = new TimeSpan();
+            if (ExpirationDate != null)
+            {
+                timeSpan = ExpirationDate.Value - System.DateTime.Now;
+                
 
-
+            }
+            return timeSpan;
+        } 
 
     }
 }

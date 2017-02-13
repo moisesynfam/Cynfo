@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Cynfo1._0.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Cynfo1._0.Controllers
 {
@@ -26,6 +28,10 @@ namespace Cynfo1._0.Controllers
         public ActionResult Index()
         {
             var beacons = _context.Beacons.ToList();
+            var userManager = _context.Users;
+            string id = User.Identity.GetUserId();
+            var activeUser = userManager.SingleOrDefault(u => u.Id == id);
+            ViewBag.ActiveUser = activeUser.CompanyName;
 
             return View(beacons);
         }
@@ -50,6 +56,11 @@ namespace Cynfo1._0.Controllers
 
             if (beacon.Id == 0)
             {
+                var userManager = _context.Users;
+                string activeUserId = User.Identity.GetUserId();
+                var activeUser = userManager.SingleOrDefault(u => u.Id == activeUserId);
+                beacon.BussinessId = activeUser.CompanyIdentifier;
+                beacon.BussinessName = activeUser.CompanyName;
                 _context.Beacons.Add(beacon);
             }
             else

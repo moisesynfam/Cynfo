@@ -6,7 +6,7 @@
 }
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<br/>
+<br />
 <div class="w3-container w3-center w3-border-blue">
     <h2 class="w3-xxlarge">Anuncios Publicados</h2>
     <br />
@@ -30,8 +30,8 @@ else
         {
             <div class="w3-third w3-padding-12" id="card-@advertisement.Id">
                 <div class="w3-card-4" style="width: 92%; max-width: 350px;">
-                    
-                    <img src="@advertisement.MediaURL" style="width: 100%;"/>
+
+                    <img src="@advertisement.MediaURL" style="width: 100%;" />
                     <div class="w3-container">
                         <h4><b>@advertisement.Title</b></h4>
                         <p>@advertisement.Description</p>
@@ -48,11 +48,15 @@ else
                         {
                             <p>No se ha especificado ningun area</p>
                         }
+
+                       <div data-countdown="@advertisement.ExpirationDate"></div>
                         
                        
-                        
+
+
+
                     </div>
-                    
+
 
                     <div class="w3-btn-group w3-row">
 
@@ -77,11 +81,27 @@ else
     <script>
         $(document)
             .ready(function () {
-               
-                $("#card_container").on("click",".js-delete", function() {
+
+                $('[data-countdown]').each(function () {
+                    var $this = $(this), finalDate = $(this).data('countdown');
+                    $this.countdown(finalDate, function (event) {
+                        var format = '%H:%M:%S';
+                        if (event.offset.totalDays > 0) {
+                            format = '%-d Dia%!d ' + format;
+                        }
+                        if (event.offset.weeks > 0) {
+                            format = '%-w Semana%!w ' + format;
+                        }
+                        $(this).html(event.strftime(format));
+                        }).on('finish.countdown', function (event) {
+                            $(this).html('Este Anuncio ya espiró').parent().addClass('disabled');
+                    });
+                });
+
+                $("#card_container").on("click", ".js-delete", function () {
                     var button = $(this);
-                    
-                    bootbox.confirm("Desea eliminar este anuncio?", function(result) {
+
+                    bootbox.confirm("Desea eliminar este anuncio?", function (result) {
                         if (result) {
                             $.ajax({
                                 url: "/api/advertisements/" + button.attr("data-ad-id"),
@@ -90,10 +110,12 @@ else
                                     $("#card-" + button.attr("data-ad-id")).remove();
                                 }
                             });
-                            
+
                         }
                     });
-                  
+
+
+
                 });
 
 
