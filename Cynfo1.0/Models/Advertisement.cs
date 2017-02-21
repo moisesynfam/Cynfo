@@ -34,12 +34,18 @@ namespace Cynfo1._0.Models
 
         public Beacon Beacon { get; set; }
 
+        public int CompanyID { get; set; }
+
         public TimeSpan GetPublishedTimeSpan()
         {
             TimeSpan timeSpan = new TimeSpan();
             if (ExpirationDate != null)
             {
-                timeSpan = ExpirationDate.Value - System.DateTime.Now;
+                var timespan = ExpirationDate.Value - System.DateTime.Now;
+                if (timespan.TotalMinutes <= 0)
+                {
+                    isExpired = true;
+                }
                 
 
             }

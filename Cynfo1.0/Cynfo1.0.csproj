@@ -340,6 +340,10 @@
     <Compile Include="Migrations\201702130148319_updatingAdsModel.Designer.cs">
       <DependentUpon>201702130148319_updatingAdsModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702151615414_addCompanyFieldToAds.cs" />
+    <Compile Include="Migrations\201702151615414_addCompanyFieldToAds.Designer.cs">
+      <DependentUpon>201702151615414_addCompanyFieldToAds.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Advertisement.cs" />
@@ -698,6 +702,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702130148319_updatingAdsModel.resx">
       <DependentUpon>201702130148319_updatingAdsModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702151615414_addCompanyFieldToAds.resx">
+      <DependentUpon>201702151615414_addCompanyFieldToAds.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

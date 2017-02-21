@@ -27,10 +27,15 @@ namespace Cynfo1._0.Controllers
         // GET: Beacons
         public ActionResult Index()
         {
-            var beacons = _context.Beacons.ToList();
+            
             var userManager = _context.Users;
             string id = User.Identity.GetUserId();
             var activeUser = userManager.SingleOrDefault(u => u.Id == id);
+
+            var beacons = from b in _context.Beacons
+                where b.BussinessId.Equals(activeUser.CompanyIdentifier)
+                select b;
+
             ViewBag.ActiveUser = activeUser.CompanyName;
 
             return View(beacons);

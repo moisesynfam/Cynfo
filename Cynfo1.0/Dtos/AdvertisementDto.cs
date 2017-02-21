@@ -23,6 +23,9 @@ namespace Cynfo1._0.Dtos
 
         public DateTime UploadedDate { get; set; }
 
+        public DateTime? ExpirationDate { get; set; }
+
+        public Boolean isExpired { get; set; }
 
         public string MediaURL { get; set; }
 

@@ -14,6 +14,7 @@ using FireSharp;
 using FireSharp.Config;
 using FireSharp.Interfaces;
 using FireSharp.Response;
+using Microsoft.AspNet.Identity;
 
 namespace Cynfo1._0.Controllers
 {
@@ -50,10 +51,21 @@ namespace Cynfo1._0.Controllers
         // GET: Advertisements
         public async Task<ActionResult> Index()
         {
-            var advertisements = _context.Advertisements.ToList();
-            var beacons = _context.Beacons.ToList();
+            var userManager = _context.Users;
+            string activeUserId = User.Identity.GetUserId();
+            var activeUser = userManager.SingleOrDefault(u => u.Id == activeUserId);
 
-          
+            var advertisements = from a in _context.Advertisements
+                where a.CompanyID.Equals(activeUser.CompanyIdentifier)
+                select a;
+
+
+            var beacons = from b in _context.Beacons
+                          where b.BussinessId.Equals(activeUser.CompanyIdentifier)
+                          select b;
+
+
+
 
 
             var adsViewModel = new AdsViewModel()
@@ -69,7 +81,14 @@ namespace Cynfo1._0.Controllers
 
         public ActionResult Create()
         {
-            var beacons = _context.Beacons.ToList();
+            var userManager = _context.Users;
+            string activeUserId = User.Identity.GetUserId();
+            var activeUser = userManager.SingleOrDefault(u => u.Id == activeUserId);
+
+
+            var beacons = from b in _context.Beacons
+                          where b.BussinessId.Equals(activeUser.CompanyIdentifier)
+                          select b;
             var viewModel = new AdFormViewModel()
             {
                 Advertisement = new Advertisement(),
@@ -102,6 +121,8 @@ namespace Cynfo1._0.Controllers
             {
                 PhotoService photoservice = new PhotoService();
                 advertisement.MediaURL = await photoservice.UploadPhotoAsync(photo);
+                var adBeacon = _context.Beacons.SingleOrDefault(b => b.Id == advertisement.BeaconId);
+                advertisement.CompanyID = adBeacon.BussinessId;
                 advertisement.UploadedDate = DateTime.UtcNow;
                 _context.Advertisements.Add(advertisement);
 
@@ -139,7 +160,7 @@ namespace Cynfo1._0.Controllers
                 fbAd.imageURL = adInDB.MediaURL;
                 fbAd.publishedDate = adInDB.UploadedDate;
                 fbAd.title = adInDB.Title;
-
+               
                 
 
 

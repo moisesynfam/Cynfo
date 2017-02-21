@@ -17,6 +17,7 @@ else
 {
     <br />
     <br />
+   
     <div class="w3-row">
         <div class="w3-col w3-container" style="width: 20%"> </div>
 
@@ -24,9 +25,12 @@ else
             <div class="w3-container w3-teal">
                 @if (Model.Advertisement.Id == 0)
                 {
-                    <h2>
+                    <h2 class="w3-left">
                         Nuevo Anuncio
+                      
                     </h2>
+                    <a href="@Url.Action("Index", "Advertisements")"> <i class="fa fa-times fa-2x fa-fw w3-right w3-padding-8"></i></a>
+
                 }
                 else
                 {
@@ -37,94 +41,110 @@ else
 
             </div>
 
-            <div class="w3-container w3-card-4">
-                @using (Html.BeginForm("Save", "Advertisements", FormMethod.Post, new { enctype = "multipart/form-data", id = "adsForm" }))
+            <div class="w3-container w3-card-4 w3-white">
+                @using (Html.BeginForm("Save", "Advertisements", FormMethod.Post, new { enctype = "multipart/form-data", id = "adsForm", @class = "w3-container" }))
                 {
-                    <div class="form-horizontal">
+                    <div class="w3-container">
                         <br />
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.Advertisement.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.TextBoxFor(m => m.Advertisement.Title, new { @class = "form-control", @Style = "width:100%" })
-                                @Html.ValidationMessageFor(m => m.Advertisement.Title)
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(m => m.Advertisement.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.TextAreaFor(m => m.Advertisement.Description, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.Advertisement.Description)
-                            </div>
-
-                        </div>
-
-                        @if (Model.Advertisement.Id != 0)
-                        {
-                        <br />
                         <div class="w3-container">
-                            <img src="@Model.Advertisement.MediaURL" class="w3-animate-zoom" alt="Anuncio" style="width: 100%" />
+                            @Html.LabelFor(m => m.Advertisement.Title, htmlAttributes: new { @class = " w3-label" })
+                            @Html.TextBoxFor(m => m.Advertisement.Title, new { @class = "w3-input " })
+                            @Html.ValidationMessageFor(m => m.Advertisement.Title)
 
                         </div>
                         <br />
-                        }
-
-                        <div class="form-group">
-
-                            @Html.DropDownListFor(m => m.Advertisement.BeaconId, new SelectList(Model.Beacons, "Id", "AreaName"), "-Seleccione el Area-", new { @class = "form-control w3-select col-md-12" })
-                            @Html.ValidationMessageFor(m => m.Advertisement.BeaconId)
+                        
+                        <div class="w3-container">
+                            @Html.LabelFor(m => m.Advertisement.ExpirationDate, htmlAttributes: new { @class = " w3-label" })
+                            @Html.TextBoxFor(m => m.Advertisement.ExpirationDate, new { @class = "w3-input " })
+                            @Html.ValidationMessageFor(m => m.Advertisement.ExpirationDate)
 
                         </div>
+                        <br />
+                        
+                        <div class="w3-container">
+                            
+                            <label class="w3-label">Area de publicación</label>
+                            <div>
+                                @Html.DropDownListFor(m => m.Advertisement.BeaconId, new SelectList(Model.Beacons, "Id", "AreaName"), "-Seleccione el Area-", new { @class = "w3-select w3-border-teal" })
+                                @Html.ValidationMessageFor(m => m.Advertisement.BeaconId)
+                            </div>
+
+                        </div>
+                        <br />
+
+                        <div class="w3-container">
+                            @Html.LabelFor(m => m.Advertisement.Description, htmlAttributes: new { @class = "w3-label" })
+                            @Html.TextAreaFor(m => m.Advertisement.Description, new { @class = "w3-input" })
+                            @Html.ValidationMessageFor(m => m.Advertisement.Description)
+
+                        </div>
+                        <br />
 
                         @if (Model.Advertisement.Id != 0)
                         {
-                        <div class="form-group">
-                            <label class="control-label"> Imagen del Anuncio</label>
-                            <input type="file" name="photo" />
+                            <br />
+                            <div class="w3-container">
+                                <img src="@Model.Advertisement.MediaURL" class="w3-animate-zoom " alt="Anuncio" style="width: 100%" />
 
-                        </div>
+                            </div>
+                            <br />
+                        }
+                       
+                    
+
+                       
+                        @if (Model.Advertisement.Id != 0)
+                        {
+                            <div class="form-group">
+                                <label class="control-label"> Imagen del Anuncio</label>
+                                <input type="file" name="photo" />
+
+                            </div>
                         }
                         else
                         {
-                        <div class="form-group">
-                            <label class="control-label col-md-2"> Imagen del Anuncio</label>
-                            <input type="file" name="photo" class="col-md-10" data-val="true" data-val-required="La imagen es obligatoria" />
-                            <span class="field-validation-valid" data-valmsg-for="photo" data-valmsg-replace="true"></span>
-                        </div>
+                            <div class="w3-container">
+                                <label class="w3-label"> Imagen del Anuncio</label>
+                                <input type="file" name="photo" class="file" data-val="true" data-allowed-file-extensions='["jpeg", "png"]' data-val-required="La imagen es obligatoria" />
+                                <span class="field-validation-valid" data-valmsg-for="photo" data-valmsg-replace="true"></span>
+                            </div>
                         }
                         @Html.HiddenFor(m => m.Advertisement.Id)
                         @Html.AntiForgeryToken()
 
 
-
-                        <button type="submit" class="w3-btn">Guardar</button>
+                        <br />
+                            <button type="submit" class="w3-btn w3-quarter">Guardar</button>
+                        
                     </div>
 
                 }
             </div>
 
 
-            <div class="w3-col" style="width: 20%"> </div>
+
         </div>
+        <div class="w3-col" style="width: 20%"> </div>
     </div>
 
 }
-            
-   
 
-        
 
-        @section scripts
+
+
+
+@section scripts
 {
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/jqueryval")
-    
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+
 
     <script>
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#adsForm').on('submit', function (e) {
                 var form = $("#adsForm");
                 form.validate();
@@ -167,13 +187,13 @@ else
                     });
 
                 } else {
-                    
+
                     console.log("Invalid");
                     return null;
                 }
 
-              
-               
+
+
 
             });
 
