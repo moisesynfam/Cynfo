@@ -22,6 +22,7 @@ namespace Cynfo1._0
                          "~/Scripts/jquery.validate.unobtrusive.js",
                          "~/Scripts/jquery.countdown.min.js"
 
+
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
