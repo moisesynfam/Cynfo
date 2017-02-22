@@ -95,7 +95,7 @@ namespace Cynfo1._0.Controllers
                 Beacons = beacons
             };
 
-            return View("AdvertisementsForm",viewModel);
+            return PartialView("_AdvertisementsFormPartial",viewModel);
 
         }
 
@@ -112,6 +112,7 @@ namespace Cynfo1._0.Controllers
                     Advertisement = advertisement,
                     Beacons = beacons
                 };
+
 
                 return View("AdvertisementsForm", viewModel);
 
@@ -132,6 +133,7 @@ namespace Cynfo1._0.Controllers
                 var adInDb = _context.Advertisements.SingleOrDefault(a => a.Id == advertisement.Id);
                 adInDb.BeaconId = advertisement.BeaconId;
                 adInDb.Description = advertisement.Description;
+                adInDb.ExpirationDate = advertisement.ExpirationDate;
                 if (photo != null)
                 {
                     PhotoService photoservice = new PhotoService();
@@ -189,7 +191,7 @@ namespace Cynfo1._0.Controllers
             
             };
 
-            return View("AdvertisementsForm", viewModel);
+            return PartialView("_AdvertisementsFormPartial", viewModel);
         }
 
         public async Task<ActionResult> Delete(int? id)

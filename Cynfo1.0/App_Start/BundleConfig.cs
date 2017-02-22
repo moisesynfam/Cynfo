@@ -18,15 +18,15 @@ namespace Cynfo1._0
                         "~/Scripts/respond.js",
                         "~/Scripts/datatables/jquery.datatables.js",
                         "~/Scripts/datatables/datatables.bootstrap.js",
-                         "~/Scripts/jquery.validate.js",
-                         "~/Scripts/jquery.validate.unobtrusive.js",
                          "~/Scripts/jquery.countdown.min.js"
 
 
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
+                        "~/Scripts/jquery.validate*",
+                        "~/Scripts/jquery.validate.js",
+                         "~/Scripts/jquery.validate.unobtrusive.js"));
 
             // Utilice la versión de desarrollo de Modernizr para desarrollar y obtener información. De este modo, estará
             // preparado para la producción y podrá utilizar la herramienta de compilación disponible en http://modernizr.com para seleccionar solo las pruebas que necesite.

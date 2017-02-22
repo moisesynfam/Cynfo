@@ -1,0 +1,146 @@
+﻿@model Cynfo1._0.ViewModels.AdFormViewModel
+
+  
+
+ @using (Html.BeginForm("Save", "Advertisements", FormMethod.Post, new { enctype = "multipart/form-data", id = "adsForm", @class = "" }))
+ {
+    
+     <div class="w3-container">
+         <br />
+         <div class="w3-container">
+             @Html.LabelFor(m => m.Advertisement.Title, htmlAttributes: new {@class = " w3-label w3-theme-text-d4"})
+             @Html.TextBoxFor(m => m.Advertisement.Title, new {@class = "w3-input "})
+             @Html.ValidationMessageFor(m => m.Advertisement.Title)
+
+         </div>
+         <br/>
+
+         <div class="w3-container col-md-12">
+             @Html.LabelFor(m => m.Advertisement.ExpirationDate, htmlAttributes: new {@class = " w3-label w3-theme-text-d4"})
+             @Html.TextBoxFor(m => m.Advertisement.ExpirationDate, new {@class = "w3-input", id = "datetimepicker"})
+             @Html.ValidationMessageFor(m => m.Advertisement.ExpirationDate)
+             <br/>
+
+         </div>
+
+
+         <br/>
+
+         <div class="w3-container">
+
+             <label class="w3-label w3-theme-text-d4">Area de publicación</label>
+             <div>
+                 @Html.DropDownListFor(m => m.Advertisement.BeaconId, new SelectList(Model.Beacons, "Id", "AreaName"), "-Seleccione el Area-", new {@class = "w3-select w3-border-blue"})
+                 @Html.ValidationMessageFor(m => m.Advertisement.BeaconId)
+             </div>
+
+         </div>
+         <br/>
+
+         <div class="w3-container">
+             @Html.LabelFor(m => m.Advertisement.Description, htmlAttributes: new {@class = "w3-label w3-theme-text-d4"})
+             @Html.TextAreaFor(m => m.Advertisement.Description, new {@class = "w3-input"})
+             @Html.ValidationMessageFor(m => m.Advertisement.Description)
+
+         </div>
+         <br/>
+
+         @if (Model.Advertisement.Id != 0)
+         {
+             <br/>
+             <div class="w3-container">
+                 <img src="@Model.Advertisement.MediaURL" class="w3-animate-zoom " alt="Anuncio" style="width: 50%"/>
+
+             </div>
+             <br/>
+             <div class="w3-container">
+                 <label class="w3-label w3-theme-text-d4"> Imagen del Anuncio</label>
+                 <input type="file" name="photo" class="file"/>
+
+             </div>
+         }
+
+         else
+         {
+             <div class="w3-container">
+                 <label class="w3-label w3-theme-text-d4"> Imagen del Anuncio</label>
+                 <input type="file" name="photo" class="file" data-val="true" data-allowed-file-extensions='["jpeg", "png"]' data-val-required="La imagen es obligatoria"/>
+                 <span class="field-validation-valid" data-valmsg-for="photo" data-valmsg-replace="true"></span>
+             </div>
+         }
+         @Html.HiddenFor(m => m.Advertisement.Id)
+         @Html.AntiForgeryToken()
+
+
+         <br/>
+         <button type="submit" class="w3-btn w3-quarter w3-theme-d5">Guardar</button>
+
+     </div>
+
+ }
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="/scripts/moment.min.js"></script>
+<script src="/scripts/bootstrap-datetimepicker.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#datetimepicker').datetimepicker();
+        $('#adsForm')
+            .on('submit',
+                function(e) {
+                    var form = $("#adsForm");
+                    e.preventDefault();
+                    form.validate();
+                    $.validator.unobtrusive.parse(form);
+                    if (form.valid()) {
+
+                        var dialog = bootbox.dialog({
+                            message: '<div class="w3-center">' +
+                                '<div class=""><i class="fa fa-cog fa-spin fa-3x fa-fw"></i></div>' +
+                                '<p class="">Espere mientras se publica el anuncio</p>' +
+                                '</div> ',
+                            closeButton: false,
+                            title: '<div class="w3-center">Procesando Anuncio</div>'
+
+                        });
+
+                        var url = $(this).attr("action");;
+                        console.log(url);
+                        var formData = new FormData($(this)[0]);
+                        console.log(formData);
+                        $.ajax({
+                            url: url,
+                            type: "POST",
+                            data: formData,
+                            success: function(resp) {
+                                console.log("Created Succesfully");
+                                
+
+                                window.location.href = '/Advertisements/Index';
+
+                            },
+                            contentType: false,
+                            processData: false,
+                            error: function(jqXHR, status, error) {
+                                console.log(jqXHR);
+                                console.log(status);
+                                console.log(error);
+
+                            }
+
+                        });
+
+                    } else {
+
+                        console.log("Invalid");
+                        return null;
+                    }
+
+
+                });
+    });
+
+</script>

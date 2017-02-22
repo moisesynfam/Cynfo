@@ -43,7 +43,7 @@ else
             </div>
 
             <div class="w3-container w3-card-4 w3-white">
-                @using (Html.BeginForm("Save", "Advertisements", FormMethod.Post, new { enctype = "multipart/form-data", id = "adsForm", @class = "w3-container" }))
+                @using (Html.BeginForm("Save", "Advertisements", FormMethod.Post, new { enctype = "multipart/form-data", id = "adsForm", @class = "" }))
                 {
                     <div class="w3-container">
                         <br />
@@ -61,6 +61,7 @@ else
                             @Html.LabelFor(m => m.Advertisement.ExpirationDate, htmlAttributes: new { @class = " w3-label"})
                             @Html.TextBoxFor(m => m.Advertisement.ExpirationDate, new { @class = "w3-input", id = "datetimepicker" })
                             @Html.ValidationMessageFor(m => m.Advertisement.ExpirationDate)
+                            <br />
                  
                         </div>
               
@@ -94,19 +95,13 @@ else
 
                             </div>
                             <br />
-                        }
-
-
-
-
-                        @if (Model.Advertisement.Id != 0)
-                        {
-                            <div class="form-group">
-                                <label class="control-label"> Imagen del Anuncio</label>
-                                <input type="file" name="photo" />
-
+                            <div class="w3-container">
+                                <label class="w3-label"> Imagen del Anuncio</label>
+                                <input type="file" name="photo" class="file" />
+                             
                             </div>
                         }
+
                         else
                         {
                             <div class="w3-container">
@@ -143,8 +138,6 @@ else
 {
 
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
 <script type="text/javascript" src="/scripts/moment.min.js"></script>
 <script type="text/javascript" src="/scripts/bootstrap-datetimepicker.min.js"></script>
 
@@ -154,7 +147,6 @@ else
         $(document).ready(function () {
 
             $('#datetimepicker').datetimepicker();
-            $('#datetimepicker4').datetimepicker();
 
             $('#adsForm').on('submit', function (e) {
                 var form = $("#adsForm");

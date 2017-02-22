@@ -1,18 +1,25 @@
-﻿@model Cynfo1._0.ViewModels.AdsViewModel
+﻿@using Cynfo1._0.Models
+@using Cynfo1._0.ViewModels
+@model Cynfo1._0.ViewModels.AdsViewModel
 
 @{
     ViewBag.Title = "Anuncios";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var testModel = new AdFormViewModel();
+    int adID = 0;
+
 }
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<header class="w3-container w3-center w3-padding-48 w3-card-4 " style="color:#373a42 ;background: #e5efe9">
-    <h2 class="w3-xxlarge w3-hover-text-blue-grey "><b>Anuncios Publicados</b></h2>
+<header class="w3-container w3-center w3-padding-48 w3-card-4 w3-theme-d2">
+    <h2 class="w3-xxlarge w3-hover-text "><b>Anuncios Publicados</b></h2>
     <br />
-    <a href="@Url.Action("Create", "Advertisements")" class="w3-btn-floating w3-teal">
+    <!--<a href="@Url.Action("Create", "Advertisements")" class="w3-btn-floating w3-teal">
         <i class="fa fa-plus"></i>
-    </a>
+    </a>-->
+
+    <a onclick="NewAd()" class="w3-btn-floating w3-theme-l3w"><i class="fa fa-plus"></i></a>
 
 
 </header>
@@ -25,6 +32,7 @@
 }
 else
 {
+
     <div class="w3-row-padding" id="card_container">
 
         @foreach (var advertisement in Model.Advertisements.Reverse())
@@ -34,7 +42,7 @@ else
 
                     <img src="@advertisement.MediaURL" style="width: 100%;" />
                     <div class="w3-container">
-                        <hr/>
+                        <hr />
                         <h4><b>@advertisement.Title</b></h4>
                         <p>@advertisement.Description</p>
                         <h4><b>Area</b></h4>
@@ -65,9 +73,11 @@ else
                     <hr />
                     <div class="w3-btn-group w3-row">
 
-                       
-                        <a href="@Url.Action("Edit", "Advertisements", new {id = advertisement.Id})" class="w3-btn-block w3-btn w3-teal m6 w3-col">Editar</a>
-                        <button data-ad-id="@advertisement.Id" class="w3-btn js-delete w3-col m6 w3-teal">Borrar</button>
+
+                        <!-- <a href="@Url.Action("Edit", "Advertisements", new {id = advertisement.Id})" class="w3-btn-block w3-btn w3-teal m6 w3-col">Editar</a> -->
+                        <a onclick="EditAd('@advertisement.Id')" class="w3-btn-block w3-btn w3-theme-d1 m6 w3-col">Editar</a>
+                  
+                        <button data-ad-id="@advertisement.Id" class="w3-btn js-delete w3-col m6 w3-theme-d1">Borrar</button>
 
 
 
@@ -81,53 +91,131 @@ else
 
     </div>
                             }
-<br />
+
+
+<!--Modals Section-->
+
+
+<div id="createAdModal" class="w3-modal">
+   <div class="w3-modal-content w3-card-8 w3-animate-top">
+        <header class="w3-container w3-theme-d4">
+            <span onclick="document.getElementById('createAdModal').style.display = 'none'" class="w3-closebtn">&times;</span>
+            <h2>Nuevo Anuncio</h2>
+        </header>
+        <div id="createAdBody"></div>
+       
+    </div>
+</div>
+
+
+<div id="editAdModal" class="w3-modal">
+   <div class="w3-modal-content w3-card-8 w3-animate-top">
+       <header class="w3-container w3-theme-d4">
+           <span onclick="document.getElementById('editAdModal').style.display = 'none'" class="w3-closebtn">&times;</span>
+           <h2>Editar anuncio</h2>
+       </header>
+       <div id="editAdBody">
+           
+       </div>
+       
+
+    </div>
+</div>
+
+
 @section scripts
 {
+
+
+
     <script>
+
+
         $(document)
-            .ready(function () {
+            .ready(function() {
 
-                $('[data-countdown]').each(function () {
-                    var $this = $(this), finalDate = $(this).data('countdown');
-                    $this.countdown(finalDate, function (event) {
-                        var format = '%H:%M:%S';
-                        if (event.offset.totalDays > 0) {
-                            format = '%-d Dia%!d ' + format;
-                        }
-                        if (event.offset.weeks > 0) {
-                            format = '%-w Semana%!w ' + format;
-                        }
-                        $(this).html(event.strftime(format));
-                        }).on('finish.countdown', function (event) {
-                            $(this).html('Este Anuncio ya expiró').parent().addClass('disabled');
-                    });
-                });
-
-                $("#card_container").on("click", ".js-delete", function () {
-                    var button = $(this);
-
-                    bootbox.confirm("Desea eliminar este anuncio?", function (result) {
-                        if (result) {
-                            $.ajax({
-                                url: "/api/advertisements/" + button.attr("data-ad-id"),
-                                method: "DELETE",
-                                success: function () {
-                                    $("#card-" + button.attr("data-ad-id")).remove();
-                                }
-                            });
-
-                        }
+                $('[data-countdown]')
+                    .each(function() {
+                        var $this = $(this), finalDate = $(this).data('countdown');
+                        $this.countdown(finalDate,
+                                function(event) {
+                                    var format = '%H:%M:%S';
+                                    if (event.offset.totalDays > 0) {
+                                        format = '%-d Dia%!d ' + format;
+                                    }
+                                    if (event.offset.weeks > 0) {
+                                        format = '%-w Semana%!w ' + format;
+                                    }
+                                    $(this).html(event.strftime(format));
+                                })
+                            .on('finish.countdown',
+                                function(event) {
+                                    $(this).html('Este Anuncio ya expiró').parent().addClass('disabled');
+                                });
                     });
 
+                $("#card_container")
+                    .on("click",
+                        ".js-delete",
+                        function() {
+                            var button = $(this);
+
+                            bootbox.confirm("Desea eliminar este anuncio?",
+                                function(result) {
+                                    if (result) {
+                                        $.ajax({
+                                            url: "/api/advertisements/" + button.attr("data-ad-id"),
+                                            method: "DELETE",
+                                            success: function() {
+                                                $("#card-" + button.attr("data-ad-id")).remove();
+                                            }
+                                        });
+
+                                    }
+                                });
 
 
-                });
+                        });
+
+                        
+
+
+              
 
 
             });
 
+        function EditAd(Id) {
+            console.log("edit id "+Id);
+            $("#editAdModal").show();
+            $.ajax({
+                url: '/Advertisements/Edit/' + Id,
+                success: function (result) {
+                    $('#editAdBody').html(result);
+
+                }
+            });
+
+
+        }
+
+        function NewAd() {
+            $("#createAdModal").show();
+            $.ajax({
+                url: '/Advertisements/Create/',
+                success: function (result) {
+                    $('#createAdBody').html(result);
+                    
+
+                }
+            });
+
+        }
+
     </script>
+    
+
+
 
 }
 
