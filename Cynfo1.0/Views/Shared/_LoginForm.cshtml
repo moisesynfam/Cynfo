@@ -1,0 +1,39 @@
+﻿@using System.Web.UI.WebControls
+@using Cynfo1._0.Models
+@model LoginViewModel
+
+@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>¿Posee una cuenta en Cynfo?</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group w3-container">
+
+                @Html.TextBoxFor(m => m.Email, new { @class = "w3-input", PlaceHolder = "Email" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group w3-container">
+
+                @Html.PasswordFor(m => m.Password, new { @class = "w3-input", PlaceHolder = "Contraseña" })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+            </div>
+
+                <div class="form-group w3-container w3-row-padding">
+                    <div class="">
+                        <input class="w3-check" data-val="true" data-val-required="El campo ¿Recordar cuenta? es obligatorio." id="RememberMe" name="RememberMe" type="checkbox" value="true"> @Html.LabelFor(m => m.RememberMe)
+                    </div>
+                </div>
+                <div class="form-group w3-container">
+
+                    
+                        <input type="submit" value="Iniciar sesión" class="btn w3-blue w3-hover-border-black" />
+                    
+                </div>
+
+                @* Habilite esta opción después de habilitar la confirmación de la cuenta para la función de restablecimiento de contraseña
+                    <p>
+                        @Html.ActionLink("¿Ha olvidado su contraseña?", "ForgotPassword")
+                    </p>*@
+}

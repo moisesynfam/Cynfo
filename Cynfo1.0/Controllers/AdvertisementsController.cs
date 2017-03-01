@@ -47,14 +47,23 @@ namespace Cynfo1._0.Controllers
             _context.Dispose();
         }
 
-
-        // GET: Advertisements
-        public async Task<ActionResult> Index()
+        private ApplicationUser GetActiveUser()
         {
+
             var userManager = _context.Users;
             string activeUserId = User.Identity.GetUserId();
             var activeUser = userManager.SingleOrDefault(u => u.Id == activeUserId);
 
+            return activeUser;
+
+        }
+
+        // GET: Advertisements
+        public async Task<ActionResult> Index()
+        {
+
+
+            var activeUser = GetActiveUser();
             var advertisements = from a in _context.Advertisements
                 where a.CompanyID.Equals(activeUser.CompanyIdentifier)
                 select a;
@@ -63,15 +72,15 @@ namespace Cynfo1._0.Controllers
             var beacons = from b in _context.Beacons
                           where b.BussinessId.Equals(activeUser.CompanyIdentifier)
                           select b;
-
+           
 
 
 
 
             var adsViewModel = new AdsViewModel()
             {
-                Advertisements = advertisements,
-                Beacons = beacons
+                Advertisements = advertisements.ToList(),
+                Beacons = beacons.ToList()
            
             };
             
@@ -79,12 +88,43 @@ namespace Cynfo1._0.Controllers
             return View(adsViewModel);
         }
 
+        public ActionResult AreaAds(int id)
+        {
+
+            var activeUser = GetActiveUser();
+            var advertisements = from a in _context.Advertisements
+                                 where a.CompanyID.Equals(activeUser.CompanyIdentifier)
+                                 select a;
+
+
+            var beacons = from b in _context.Beacons
+                          where b.BussinessId.Equals(activeUser.CompanyIdentifier)
+                          select b;
+
+
+            var areaAds = from a in advertisements
+                          where a.BeaconId.Equals(id)
+                          select a;
+
+            if (!areaAds.Any())
+            {
+                return HttpNotFound();
+            }
+
+            var adsViewModel = new AdsViewModel()
+            {
+                Advertisements = areaAds.ToList(),
+                Beacons = beacons.ToList()
+
+            };
+
+            return PartialView("_AreaAds", adsViewModel);
+        }
+
         public ActionResult Create()
         {
-            var userManager = _context.Users;
-            string activeUserId = User.Identity.GetUserId();
-            var activeUser = userManager.SingleOrDefault(u => u.Id == activeUserId);
 
+            var activeUser = GetActiveUser();
 
             var beacons = from b in _context.Beacons
                           where b.BussinessId.Equals(activeUser.CompanyIdentifier)
@@ -92,7 +132,7 @@ namespace Cynfo1._0.Controllers
             var viewModel = new AdFormViewModel()
             {
                 Advertisement = new Advertisement(),
-                Beacons = beacons
+                Beacons = beacons.ToList()
             };
 
             return PartialView("_AdvertisementsFormPartial",viewModel);
@@ -180,7 +220,11 @@ namespace Cynfo1._0.Controllers
         public ActionResult Edit(int id)
         {
             var advertisement = _context.Advertisements.SingleOrDefault(c => c.Id == id);
-            var beacons = _context.Beacons.ToList();
+            var activeUser = GetActiveUser();
+
+            var beacons = from b in _context.Beacons
+                          where b.BussinessId.Equals(activeUser.CompanyIdentifier)
+                          select b;
             if (advertisement == null)
                 return HttpNotFound();
 
@@ -216,6 +260,9 @@ namespace Cynfo1._0.Controllers
 
 
         }
+
+
+
 
 
     }

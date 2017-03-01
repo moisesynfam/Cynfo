@@ -358,6 +358,7 @@
     <Compile Include="ViewModels\AdsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\animate.css" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -709,7 +710,9 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -755,6 +758,8 @@
     <Content Include="Views\Beacons1\Index.cshtml" />
     <Content Include="Views\Advertisements\AdvertisementsForm2.cshtml" />
     <Content Include="Views\Advertisements\_AdvertisementsFormPartial.cshtml" />
+    <Content Include="Views\Shared\_LoginForm.cshtml" />
+    <Content Include="Views\Advertisements\_AreaAds.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
