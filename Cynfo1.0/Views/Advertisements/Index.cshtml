@@ -14,49 +14,57 @@
 
 
 <nav class="w3-sidenav w3-card-4 w3-animate-left w3-white" style="width: 16%" id="mySidenav">
-    <br/>
-    <br/>
+    <br /><br />
     <a href="javascript:void(0)" onclick="NewAd()" class="w3-center"><p class="w3-large"><b>Nuevo Anuncio</b></p> <i class="glyphicon glyphicon-plus-sign w3-xlarge"></i></a>
-    <hr/>
-    <div class="w3-center w3-xlarge"><b>Areas</b>
-
+    <hr />
+    <div class="w3-left w3-padding-left w3-text-light-blue">
+        Areas
     </div>
+    <br />
     @foreach (var beacon in Model.Beacons)
     {
-        <a href="javascript:void(0)" class="w3-center" onclick="LoadAds(@beacon.Id)">@beacon.AreaName</a>
+
+        <a href="javascript:void(0)" onclick="LoadAds(@beacon.Id)">
+            <div class="w3-padding-left w3-padding-4">
+                <span class="glyphicons glyphicons-record"></span> @beacon.AreaName
+            </div>
+        </a>
+
     }
+    <hr />
 </nav>
 
 
 <div id="main" style="margin-left: 16%">
-    
+
     <header class="w3-container w3-center w3-padding-48 w3-card-4 w3-theme-d2">
-        <h2 class="w3-xxlarge w3-hover-text "><b>Anuncios Publicados</b>
+        <h2 class="w3-xxlarge w3-hover-text ">
+            <b>Anuncios Publicados</b>
         </h2>
-        <br/>
+
         <!--<a href="@Url.Action("Create", "Advertisements")" class="w3-btn-floating w3-teal">
             <i class="fa fa-plus"></i>
         </a>
 
         <a onclick="NewAd()" class="w3-btn-floating w3-theme-l3w"><i class="fa fa-plus"></i></a>-->
-        
+
 
 
     </header>
+    <br />
 
 
 
-
-    <div class="container body-content" >
+    <div class="container body-content">
         @if (!Model.Advertisements.Any())
-        {
+            {
             <p>Aun no se ha publicado ningun anuncio</p>
 
         }
         else
         {
             <div id="adsContent">
-                
+
             </div>
 
 
@@ -65,32 +73,32 @@
 
         }
     </div>
-</div> 
+</div>
 <!--Modals Section-->
 
 
 <div id="createAdModal" class="w3-modal">
-   <div class="w3-modal-content w3-card-8 w3-animate-top">
+    <div class="w3-modal-content w3-card-8 w3-animate-top">
         <header class="w3-container w3-theme-d4">
-            <span  onclick="document.getElementById('createAdModal').style.display = 'none'" class="w3-closebtn">&times;</span>
+            <span onclick="document.getElementById('createAdModal').style.display = 'none'" class="w3-closebtn">&times;</span>
             <h2>Nuevo Anuncio</h2>
         </header>
         <div id="createAdBody"></div>
-       
+
     </div>
 </div>
 
 
 <div id="editAdModal" class="w3-modal">
-   <div class="w3-modal-content w3-card-8 w3-animate-top">
-       <header class="w3-container w3-theme-d4">
-           <span onclick="document.getElementById('editAdModal').style.display = 'none'" class="w3-closebtn">&times;</span>
-           <h2>Editar anuncio</h2>
-       </header>
-       <div id="editAdBody">
-           
-       </div>
-       
+    <div class="w3-modal-content w3-card-8 w3-animate-top">
+        <header class="w3-container w3-theme-d4">
+            <span onclick="document.getElementById('editAdModal').style.display = 'none'" class="w3-closebtn">&times;</span>
+            <h2>Editar anuncio</h2>
+        </header>
+        <div id="editAdBody">
+
+        </div>
+
 
     </div>
 </div>
@@ -105,15 +113,15 @@
 
 
         $(document)
-            .ready(function() {
+            .ready(function () {
 
 
 
             });
-        
+
 
         function EditAd(Id) {
-            console.log("edit id "+Id);
+            console.log("edit id " + Id);
             $("#editAdModal").show();
             $.ajax({
                 url: '/Advertisements/Edit/' + Id,
@@ -132,7 +140,7 @@
                 url: '/Advertisements/Create/',
                 success: function (result) {
                     $('#createAdBody').html(result);
-                    
+
 
                 }
             });
@@ -141,7 +149,7 @@
 
         function LoadAds(beaconId) {
             $.ajax({
-                url: '/Advertisements/AreaAds/'+ beaconId,
+                url: '/Advertisements/AreaAds/' + beaconId,
                 success: function (result) {
                     $('#adsContent').html(result);
 
@@ -174,7 +182,7 @@
         }
 
     </script>
-    
+
 
 
 

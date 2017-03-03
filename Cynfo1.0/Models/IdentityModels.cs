@@ -23,7 +23,11 @@ namespace Cynfo1._0.Models
         public string CompanyName { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int CompanyIdentifier  { get; set; } 
+        public int CompanyIdentifier  { get; set; }
+
+        public string COmpanyDpUrl { get; set; }
+        
+        
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -39,5 +43,7 @@ namespace Cynfo1._0.Models
         {
             return new ApplicationDbContext();
         }
+
+        
     }
 }

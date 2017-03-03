@@ -143,6 +143,8 @@ namespace Cynfo1._0.Controllers
             return View();
         }
 
+       
+
         //
         // POST: /Account/Register
         [HttpPost]
