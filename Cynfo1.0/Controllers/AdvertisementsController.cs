@@ -6,6 +6,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Cynfo1._0.App_Start;
 using Cynfo1._0.AzureUtils;
 using Cynfo1._0.Models;
 using Cynfo1._0.ViewModels;
@@ -23,21 +24,12 @@ namespace Cynfo1._0.Controllers
 
         private ApplicationDbContext _context;
 
-        private IFirebaseConfig FBconfig;
-
-        private IFirebaseClient FBclient;
 
         public AdvertisementsController()
         {
             
             _context = new ApplicationDbContext();
-            FBconfig = new FirebaseConfig
-            {
-                AuthSecret = "mKIYPbYtV1kjS975Ck31R5k3gMN51EY7ronuz1x8",
-                BasePath = "https://cynfotest.firebaseio.com/"
-            };
-
-            FBclient = new FirebaseClient(FBconfig);
+          
 
 
         }
@@ -188,29 +180,29 @@ namespace Cynfo1._0.Controllers
             }
             await _context.SaveChangesAsync();
 
-            var adInDB = _context.Advertisements.ToList().LastOrDefault();
+            //var adInDB = _context.Advertisements.ToList().LastOrDefault();
 
             
 
-            if (adInDB!= null&& advertisement.Id==0)
-            {
                 var fbAd = new FBAd();
 
 
-                fbAd.category = _context.Beacons.SingleOrDefault(b => b.Id == adInDB.BeaconId).AreaId;
-                fbAd.description = adInDB.Description;
-                fbAd.id = adInDB.Id;
-                fbAd.imageURL = adInDB.MediaURL;
-                fbAd.publishedDate = adInDB.UploadedDate;
-                fbAd.title = adInDB.Title;
+                //fbAd.category = _context.Beacons.SingleOrDefault(b => b.Id == adInDB.BeaconId).AreaId;
+                fbAd.description = advertisement.Description;
+                fbAd.id = advertisement.Id;
+                fbAd.imageURL = advertisement.MediaURL;
+                //fbAd.publishedDate = adInDB.UploadedDate;
+                fbAd.title = advertisement.Title;
                
                 
 
 
 
 
-                SetResponse response = await FBclient.SetAsync("Ads_test/" + adInDB.Id, fbAd);
-            }
+                SetResponse response = await FirebaseInit.Firebaseclient.SetAsync("businessTest/" + advertisement.CompanyID+"/areas/"
+                                                +"ar"+advertisement.CompanyID+advertisement.BeaconId+"/ads/"
+                                                +"ad"+ advertisement.BeaconId+advertisement.Id, fbAd);
+            
 
             return RedirectToAction("Index", "Advertisements");
         }
@@ -272,7 +264,7 @@ namespace Cynfo1._0.Controllers
 
             _context.Advertisements.Remove(advertisement);
             _context.SaveChanges();
-            FirebaseResponse response = await FBclient.DeleteAsync("Ads_test/" + id);
+           // FirebaseResponse response = await FBclient.DeleteAsync("Ads_test/" + id);
             
 
             return RedirectToAction("Index");

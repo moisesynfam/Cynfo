@@ -1,14 +1,20 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.WebPages;
+using Cynfo1._0.App_Start;
+using Cynfo1._0.FirebaseModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Cynfo1._0.Models;
+using FireSharp;
+using FireSharp.Response;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Cynfo1._0.Controllers
@@ -168,6 +174,20 @@ namespace Cynfo1._0.Controllers
 
                 if (result.Succeeded)
                 {
+
+                    FBbusiness fBbusiness = new FBbusiness()
+                    {
+                        backgroundImage = user.COmpanyDpUrl,
+                        id_Major = user.CompanyIdentifier,
+                        name = user.CompanyName
+                        
+                    };
+                    if (fBbusiness.backgroundImage.IsEmpty())
+                    {
+                        fBbusiness.backgroundImage = "empty";
+                    }
+                    SetResponse response = await FirebaseInit.Firebaseclient.SetAsync("businessTest/" + fBbusiness.id_Major, fBbusiness);
+                    Debug.WriteLine("User Created "+user.CompanyIdentifier);
 
 
                 //wait SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);

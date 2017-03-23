@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using System.Data.Entity.Core.Objects;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.WebPages;
+using Cynfo1._0.App_Start;
+using Cynfo1._0.FirebaseModels;
 using Cynfo1._0.Models;
+using FireSharp.Response;
 using Microsoft.AspNet.Identity;
 
 namespace Cynfo1._0.Controllers
@@ -52,7 +57,7 @@ namespace Cynfo1._0.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Save(Beacon beacon)
+        public async Task<ActionResult> Save(Beacon beacon)
         {
             if (!ModelState.IsValid)
             {
@@ -67,6 +72,8 @@ namespace Cynfo1._0.Controllers
                 beacon.BussinessId = activeUser.CompanyIdentifier;
                 beacon.BussinessName = activeUser.CompanyName;
                 _context.Beacons.Add(beacon);
+
+          
             }
             else
             {
@@ -78,8 +85,29 @@ namespace Cynfo1._0.Controllers
                 beaconInDb.BussinessId = beacon.BussinessId;
                 beaconInDb.BussinessName = beacon.BussinessName;
 
+
+              
+
             }
             _context.SaveChanges();
+
+            FBarea fBarea = new FBarea()
+            {
+                name = beacon.AreaName,
+                backgroundImage = beacon.AreaMediaUrl,
+                id_Minor = beacon.AreaId
+            };
+
+            if (fBarea.backgroundImage.IsEmpty())
+            {
+                fBarea.backgroundImage = "empty";
+
+
+            }
+            SetResponse response = await FirebaseInit.Firebaseclient.SetAsync("businessTest/" + beacon.BussinessId +
+                   "/areas/" + "ar" + beacon.BussinessId + beacon.Id, fBarea);
+
+
             return RedirectToAction("Index", "Beacons");
 
 

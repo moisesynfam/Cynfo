@@ -286,6 +286,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\FirebaseInit.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\MappingProfile.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -305,6 +306,8 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Dtos\AdvertisementDto.cs" />
     <Compile Include="Dtos\BeaconDto.cs" />
+    <Compile Include="FirebaseModels\FBarea.cs" />
+    <Compile Include="FirebaseModels\FBbusiness.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -353,7 +356,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Advertisement.cs" />
     <Compile Include="Models\Beacon.cs" />
-    <Compile Include="Models\FBAd.cs" />
+    <Compile Include="FirebaseModels\FBAd.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\UserRoles.cs" />
