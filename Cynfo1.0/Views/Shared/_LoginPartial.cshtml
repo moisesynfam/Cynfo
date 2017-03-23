@@ -6,7 +6,7 @@
     {
     @Html.AntiForgeryToken()
 
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="">
             <li>
                 @Html.ActionLink("Hola " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
             </li>
@@ -20,30 +20,13 @@
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
+   <a class="waves-effect waves-light " href="#modal1">Iniciar Sesión</a>
 
-        <li class="w3-dropdown-click">
-            <a onclick="myFunction()">Iniciar sesión </a>
-            <div class="w3-dropdown-content w3-white w3-card-4" id="demo"style="width: 350px;">
-                <div class="w3-container">
-                    @Html.Partial("_LoginForm")
-                </div>
-
-            </div>
-            <!--@Html.ActionLink("Iniciar sesión", "Login", "Account", routeValues: null, htmlAttributes: new {id = "loginLink"})-->
+  
+   
 
 
-        </li>
-    </ul>
+
 }
 
-<script>
-function myFunction() {
-    var x = document.getElementById("demo");
-    if (x.className.indexOf("w3-show") == -1) {
-        x.className += " w3-show";
-    } else {
-        x.className = x.className.replace(" w3-show", "");
-    }
-}
-</script>
+

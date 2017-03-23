@@ -62,6 +62,14 @@ namespace Cynfo1._0.Controllers
             return View();
         }
 
+        [AllowAnonymous]
+        public ActionResult LoginPartial(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return PartialView("_LoginForm");
+        }
+
+
         //
         // POST: /Account/Login
         [HttpPost]

@@ -3,185 +3,215 @@
 @model Cynfo1._0.ViewModels.AdsViewModel
 
 @{
-    ViewBag.Title = "Anuncios";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    var testModel = new AdFormViewModel();
-    int adID = 0;
+	ViewBag.Title = "Anuncios";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var testModel = new AdFormViewModel();
+	int adID = 0;
 
 }
 <link rel="stylesheet" href="/Content/animate.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 
+<div id="initialArea" data-AreaId="@Model.Beacons.First().Id" data-AreaName="@Model.Beacons.First().AreaName"></div>
+
+<!--
 <nav class="w3-sidenav w3-card-4 w3-animate-left w3-white" style="width: 16%" id="mySidenav">
-    <br /><br />
-    <a href="javascript:void(0)" onclick="NewAd()" class="w3-center"><p class="w3-large"><b>Nuevo Anuncio</b></p> <i class="glyphicon glyphicon-plus-sign w3-xlarge"></i></a>
-    <hr />
-    <div class="w3-left w3-padding-left w3-text-light-blue">
-        Areas
-    </div>
-    <br />
-    @foreach (var beacon in Model.Beacons)
-    {
 
-        <a href="javascript:void(0)" onclick="LoadAds(@beacon.Id)">
-            <div class="w3-padding-left w3-padding-4">
-                <span class="glyphicons glyphicons-record"></span> @beacon.AreaName
-            </div>
-        </a>
+	<div class="container">
+		<button onclick="NewAd()" class="btn waves-effect waves-light"><i class="material-icons right">add</i>Nuevo Anuncio</button>
+		<a class="waves-effect waves-light btn"><i class="material-icons left">add</i>button</a>
+	</div>
 
-    }
-    <hr />
+	<hr/>
+	<div class="w3-left w3-padding-left w3-text-light-blue">
+		Areas
+	</div>
+	<br/>
+	@foreach (var beacon in Model.Beacons)
+	{
+
+		<a href="javascript:void(0)" onclick="LoadAds(@beacon.Id)">
+			<div class="w3-padding-left w3-padding-4">
+				<span class="glyphicons glyphicons-record"></span> @beacon.AreaName
+			</div>
+		</a>
+
+	}
+	<hr/>
 </nav>
+-->
+
+<div class="row">
+	<div class="col m2  s5 l2">
+		<div class="w3-container w3-center">
+			<br />
+			<button onclick="NewAd()" class="btn-large waves-effect waves-light">Nuevo<i class="material-icons right">add_box</i></button>
+
+		</div>
+		<br />
+		<ul class="collapsible " data-collapsible="expandable" style="height: 100%">
+			<li>
+				<div class="collapsible-header active">Areas Creadas</div>
+				<div class="collapsible-body center " style="height: 100%">
+					@foreach (var beacon in Model.Beacons)
+					{
+						<p>
+							<a href="javascript:void(0)" onclick="LoadAds(@beacon.Id,'@beacon.AreaName')" class="btn btn-primary">@beacon.AreaName</a>
+						</p>
+					}
 
 
-<div id="main" style="margin-left: 16%">
+				</div>
+			</li>
+		</ul>
+	</div>
 
-    <header class="w3-container w3-center w3-padding-48 w3-card-4 w3-theme-d2">
-        <h2 class="w3-xxlarge w3-hover-text ">
-            <b>Anuncios Publicados</b>
-        </h2>
+	<div id="main" class="col m10 s7 l10">
 
-        <!--<a href="@Url.Action("Create", "Advertisements")" class="w3-btn-floating w3-teal">
-            <i class="fa fa-plus"></i>
-        </a>
+		<br />
+		<div class="w3-container teal-text text-darken-1">
+			<h1 class="header">
+			   <b  id="AreaAdTitle"></b>
+			</h1>
+			<div class="divider"></div>
+			<br />
+		</div>
+	  
+		
+		
+		<div class="">
 
-        <a onclick="NewAd()" class="w3-btn-floating w3-theme-l3w"><i class="fa fa-plus"></i></a>-->
+			@if (!Model.Advertisements.Any())
+			{
+				<p>Aun no se ha publicado ningun anuncio</p>
 
-
-
-    </header>
-    <br />
-
-
-
-    <div class="container body-content">
-        @if (!Model.Advertisements.Any())
-            {
-            <p>Aun no se ha publicado ningun anuncio</p>
-
-        }
-        else
-        {
-            <div id="adsContent">
-
-            </div>
+			}
+			else
+			{
+				<div id="adsContent"></div>
 
 
 
 
 
-        }
-    </div>
+			}
+		</div>
+	</div>
+	<!--Modals Section-->
 </div>
-<!--Modals Section-->
-
 
 <div id="createAdModal" class="w3-modal">
-    <div class="w3-modal-content w3-card-8 w3-animate-top">
-        <header class="w3-container w3-theme-d4">
-            <span onclick="document.getElementById('createAdModal').style.display = 'none'" class="w3-closebtn">&times;</span>
-            <h2>Nuevo Anuncio</h2>
-        </header>
-        <div id="createAdBody"></div>
+	<div class="w3-modal-content w3-card-8 w3-animate-top">
+		<header class="w3-container w3-theme-d4">
+			<span onclick="document.getElementById('createAdModal').style.display = 'none'" class="w3-closebtn">&times;</span>
+			<h2>Nuevo Anuncio</h2>
+		</header>
+		<div id="createAdBody"></div>
 
-    </div>
+	</div>
 </div>
 
 
 <div id="editAdModal" class="w3-modal">
-    <div class="w3-modal-content w3-card-8 w3-animate-top">
-        <header class="w3-container w3-theme-d4">
-            <span onclick="document.getElementById('editAdModal').style.display = 'none'" class="w3-closebtn">&times;</span>
-            <h2>Editar anuncio</h2>
-        </header>
-        <div id="editAdBody">
+	<div class="w3-modal-content w3-card-8 w3-animate-top">
+		<header class="w3-container w3-theme-d4">
+			<span onclick="document.getElementById('editAdModal').style.display = 'none'" class="w3-closebtn">&times;</span>
+			<h2>Editar anuncio</h2>
+		</header>
+		<div id="editAdBody">
 
-        </div>
+		</div>
 
 
-    </div>
+	</div>
 </div>
+
+<!-- Modal Structure -->
+<div id="deleteAdModal" class="modal modal-fixed-footer">
+	
+</div>
+
 
 
 @section scripts
 {
 
+<script src="~/Scripts/materialize.js"></script>
+
+	<script>
 
 
-    <script>
+		$(document)
+			.ready(function () {
+				var initialData = $("#initialArea")
+				
+				var id =initialData.attr("data-AreaId") 
+				var name =initialData.attr("data-AreaName") 
+				console.log(id + name)
+				LoadAds(id,name )
+
+				
+			});
+
+		function DeleteAd(Id) {
+		    $('.modal').modal();
+		   
+		    $.ajax({
+		        url: '/Advertisements/PreDelete/'+Id,
+		        success: function (result) {
+		            $('#deleteAdModal').html(result);
 
 
-        $(document)
-            .ready(function () {
+		        }
+		    });
+		    $("#deleteAdModal").modal('open');
+		}
+
+		function EditAd(Id) {
+			console.log("edit id " + Id);
+			$("#editAdModal").show();
+			$.ajax({
+				url: '/Advertisements/Edit/' + Id,
+				success: function (result) {
+					$('#editAdBody').html(result);
+
+				}
+			});
+
+
+		}
+
+		function NewAd() {
+			$("#createAdModal").show();
+			$.ajax({
+				url: '/Advertisements/Create/',
+				success: function (result) {
+					$('#createAdBody').html(result);
+
+
+				}
+			});
+
+		}
+
+		function LoadAds(beaconId, AreaName) {
+			$.ajax({
+				url: '/Advertisements/AreaAds/' + beaconId,
+				success: function (result) {
+					$('#adsContent').html(result);
+					$("#AreaAdTitle").text(AreaName);
+
+				}
+			});
+
+
+		}
 
 
 
-            });
-
-
-        function EditAd(Id) {
-            console.log("edit id " + Id);
-            $("#editAdModal").show();
-            $.ajax({
-                url: '/Advertisements/Edit/' + Id,
-                success: function (result) {
-                    $('#editAdBody').html(result);
-
-                }
-            });
-
-
-        }
-
-        function NewAd() {
-            $("#createAdModal").show();
-            $.ajax({
-                url: '/Advertisements/Create/',
-                success: function (result) {
-                    $('#createAdBody').html(result);
-
-
-                }
-            });
-
-        }
-
-        function LoadAds(beaconId) {
-            $.ajax({
-                url: '/Advertisements/AreaAds/' + beaconId,
-                success: function (result) {
-                    $('#adsContent').html(result);
-
-
-                }
-            });
-
-        }
-
-        function myFunction(id) {
-            var x = document.getElementById(id);
-            if (x.className.indexOf("w3-show") == -1) {
-                x.className += " w3-show";
-            } else {
-                x.className = x.className.replace(" w3-show", "");
-            }
-        }
-
-
-        function w3_open() {
-            document.getElementById("main").style.marginLeft = "20%";
-            document.getElementById("mySidenav").style.width = "20%";
-            document.getElementById("mySidenav").style.display = "block";
-            document.getElementById("openNav").style.display = 'none';
-        }
-        function w3_close() {
-            document.getElementById("main").style.marginLeft = "0%";
-            document.getElementById("mySidenav").style.display = "none";
-            document.getElementById("openNav").style.display = "inline-block";
-        }
-
-    </script>
+	</script>
 
 
 

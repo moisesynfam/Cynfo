@@ -13,7 +13,7 @@ namespace Cynfo1._0
 
             bundles.Add(new ScriptBundle("~/bundles/lib").Include(
                         "~/Scripts/jquery-{version}.js",
-                        "~/Scripts/materialize.js",
+                        //"~/Scripts/materialize.js",
                         //"~/Scripts/bootstrap.js",
                         "~/Scripts/bootbox.js",
                         "~/Scripts/respond.js",
@@ -42,7 +42,7 @@ namespace Cynfo1._0
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       //"~/Content/bootstrap.css",
-                      "~/Content/materialize.css",
+                      //"~/Content/materialize.css",
                       "~/Content/datatables/css/datables.bootstrap.css",
                       "~/Content/font-awesome.min.css",
                       "~/Content/site.css"

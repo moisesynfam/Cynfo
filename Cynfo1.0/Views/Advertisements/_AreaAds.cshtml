@@ -1,65 +1,60 @@
 ﻿@model Cynfo1._0.ViewModels.AdsViewModel
+
+
+
+<div class="row" id="card_container">
     
+    @foreach (var advertisement in Model.Advertisements.Reverse())
+    {
 
-    <div class="w3-row-padding" id="card_container">
-        @foreach (var advertisement in Model.Advertisements.Reverse())
-        {
-            
-                <div class="w3-third w3-padding-12" id="card-@advertisement.Id">
-                    <div class="w3-card-4 w3-white" style="width: 92%; max-width: 350px;">
-
-                        <img src="@advertisement.MediaURL" style="width: 100%;" />
-                        <div class="w3-container">
-                            <hr />
-                            <h4><b>@advertisement.Title</b></h4>
-                            <p>@advertisement.Description</p>
-                       
-                            <div>
-                                <h4><b>Vence en:</b></h4>
-                                <div data-countdown="@advertisement.ExpirationDate"></div>
-                            </div>
-
-
-
-
-
-
-                        </div>
-
-                        <hr />
-                        <div class="w3-btn-group w3-row">
-
-
-                            <!-- <a href="@Url.Action("Edit", "Advertisements", new {id = advertisement.Id})" class="w3-btn-block w3-btn w3-teal m6 w3-col">Editar</a> -->
-                            <a onclick="EditAd('@advertisement.Id')" class="w3-btn-block w3-btn w3-theme-d1 m6 w3-col">Editar</a>
-
-                            <button data-ad-id="@advertisement.Id" class="w3-btn js-delete w3-col m6 w3-theme-d1">Borrar</button>
-
-
-
-
-                        </div>
-
-                    </div>
+        <div class="container col m4" id="card-@advertisement.Id">
+            <div class="card white" style="max-width: 500px;">
+                <div class="card-image">
+                    <img src="@advertisement.MediaURL" />
+                   
                 </div>
-                                    
 
+                <div class="card-content">
+                    <span class="card-title">@advertisement.Title</span>
+                    <p>@advertisement.Description</p>
+                    <h4><b>Vence en:</b></h4>
+                    <div data-countdown="@advertisement.ExpirationDate"></div>
 
-                                }
+                </div>
+                <div class="card-action">
+                    <a onclick="EditAd('@advertisement.Id')" class="btn  cyan accent-4 waves-effect waves-light">Editar <i class="material-icons right">edit</i></a>
+
+                    <button onclick="DeleteAd(@advertisement.Id)" class="btn cyan accent-4 waves-effect waves-light">Borrar <i class="material-icons right">delete</i></button>
+
+                </div>
+                <!-- <a href="@Url.Action("Edit", "Advertisements", new { id = advertisement.Id })" class="w3-btn-block w3-btn w3-teal m6 w3-col">Editar</a> -->
+
+            </div>
 
         </div>
+    }
+</div>
+
+
+
+
+
+
+
+<script src="~/Scripts/jquery.countdown.js"></script>
+<script src="~/Scripts/materialize.js"></script>
 
 <script>
 
 
     $(document)
-        .ready(function() {
+        .ready(function () {
 
             $('[data-countdown]')
-                .each(function() {
+                .each(function () {
                     var $this = $(this), finalDate = $(this).data('countdown');
                     $this.countdown(finalDate,
-                            function(event) {
+                            function (event) {
                                 var format = '%H:%M:%S';
                                 if (event.offset.totalDays > 0) {
                                     format = '%-d Dia%!d ' + format;
@@ -70,7 +65,7 @@
                                 $(this).html(event.strftime(format));
                             })
                         .on('finish.countdown',
-                            function(event) {
+                            function (event) {
                                 $(this).html('Este Anuncio ya expiró').parent().addClass('disabled');
                             });
                 });
@@ -78,16 +73,16 @@
             $("#card_container")
                 .on("click",
                     ".js-delete",
-                    function() {
+                    function () {
                         var button = $(this);
 
                         bootbox.confirm("Desea eliminar este anuncio?",
-                            function(result) {
+                            function (result) {
                                 if (result) {
                                     $.ajax({
                                         url: "/api/advertisements/" + button.attr("data-ad-id"),
                                         method: "DELETE",
-                                        success: function() {
+                                        success: function () {
                                             $("#card-" + button.attr("data-ad-id")).remove();
                                         }
                                     });

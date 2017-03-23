@@ -1,34 +1,70 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+   
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="~/Content/materialize.min.css"  rel="stylesheet" />
     
     
     <link rel="stylesheet" href="/Content/w3.css">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/Content/bootstrap-datetimepicker.css" />
-    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
 
 </head>
-<body  class="w3-light-grey">
-    @Html.Partial("_NavBar")
-    <div class="">
-        @RenderBody()
-        
+
+
+
+<body class="w3-light-grey">
+
+
+
+@Html.Partial("_NavBar")
+<div class="">
+    @RenderBody()
+
+</div>
+    <!-- Login Modal Structure -->
+    <div id="modal1" class="modal" style="min-width: 300px; max-width: 600px">
+        <div class="modal-content" id="loginModalContent">
+          
+        </div>
+
     </div>
-<hr />
+<hr/>
 
 <footer>
     <p>&copy; @DateTime.Now.Year - Cynfo WebApp</p>
 </footer>
 
-    @Scripts.Render("~/bundles/lib")
+@Scripts.Render("~/bundles/lib")
+<script src="~/Scripts/materialize.js"></script>
+
+<script>
+$(document).ready(function () {
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
+
+    $.ajax({
+        url: '/Account/LoginPartial',
+        success: function (result) {
+            $('#loginModalContent').html(result);
+
+        }
+    });
+  });
+
+
+</script>
+@RenderSection("scripts", required: false)
     
-    @RenderSection("scripts", required: false)
+    
 </body>
 </html>

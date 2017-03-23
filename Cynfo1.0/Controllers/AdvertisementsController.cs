@@ -118,6 +118,7 @@ namespace Cynfo1._0.Controllers
 
             };
 
+            ViewBag.AreaAdsTitle = beacons.First().AreaName;
             return PartialView("_AreaAds", adsViewModel);
         }
 
@@ -236,6 +237,24 @@ namespace Cynfo1._0.Controllers
             };
 
             return PartialView("_AdvertisementsFormPartial", viewModel);
+        }
+
+        public ActionResult PreDelete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Advertisement advertisement = _context.Advertisements.Find(id);
+
+            if (advertisement == null)
+            {
+                return HttpNotFound();
+            }
+
+            return PartialView("_DeleteAd", advertisement);
+
         }
 
         public async Task<ActionResult> Delete(int? id)

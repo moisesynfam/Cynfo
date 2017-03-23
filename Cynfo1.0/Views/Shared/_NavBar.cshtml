@@ -1,28 +1,29 @@
 ﻿
 @using Cynfo1._0.Models
 @using Microsoft.AspNet.Identity
-<div class="navbar navbar-fixed-top" style="color: #fff;background: #373a42">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Cynfo", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                  
-                    @if (Request.IsAuthenticated)
-                    {
-                        <li>@Html.ActionLink("Anuncios", "Index", "Advertisements")</li>
-                        <li>@Html.ActionLink("Beacons", "Index", "Beacons")</li>
-                    }
-                    <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
+
+
+<div class="navbar-fixed">
+    <nav role="navigation" class="w3-teal">
+        <div class="nav-wrapper ">
+            
+            <ul id="" class="left">
+                <li>@Html.ActionLink("Cynfo", "Index", "Home", new { area = "" }, new { @class = "w3-xlarge" })</li>
+                <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
+
+                @if (Request.IsAuthenticated)
+                {
+                    <li>@Html.ActionLink("Anuncios", "Index", "Advertisements")</li>
+                    <li>@Html.ActionLink("Beacons", "Index", "Beacons")</li>
+                }
+                
+
+            </ul>
+            <ul id="" class="right" >
+                <li>@Html.Partial("_LoginPartial")</li>
+                
+            </ul>
+           
         </div>
-    </div>
+    </nav>
+</div>

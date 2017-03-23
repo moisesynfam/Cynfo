@@ -1,0 +1,22 @@
+﻿@model Cynfo1._0.Models.Advertisement
+
+<div class="modal-content">
+    <h1>Borrar Anuncio</h1>
+    <p>
+        ¿Está seguro que desea borrar este anuncio?
+    </p>
+    <p>
+        <h2>Titulo: @Model.Title</h2>
+        <div class="w3-container" style="width:auto">
+            <img style="width:auto" src="@Model.MediaURL" />
+
+        </div>
+    </p>
+
+
+</div>
+<div class="modal-footer">
+    <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancelar</a>
+    <a href="/Advertisements/Delete/@Model.Id" class="modal-action modal-close waves-effect waves-green btn-flat">Aceptar</a>
+
+</div>
