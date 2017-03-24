@@ -102,6 +102,11 @@
 	<!--Modals Section-->
 </div>
 
+
+<div id="modal1a" class="modal modal-fixed-footer">
+	
+</div>
+
 <div id="createAdModal" class="w3-modal">
 	<div class="w3-modal-content w3-card-8 w3-animate-top">
 		<header class="w3-container w3-theme-d4">
@@ -129,7 +134,7 @@
 </div>
 
 <!-- Modal Structure -->
-<div id="deleteAdModal" class="modal modal-fixed-footer">
+<div id="deleteAdModal" class="modal">
 	
 </div>
 
@@ -156,17 +161,17 @@
 			});
 
 		function DeleteAd(Id) {
-		    $('.modal').modal();
+			$('.modal').modal();
 		   
-		    $.ajax({
-		        url: '/Advertisements/PreDelete/'+Id,
-		        success: function (result) {
-		            $('#deleteAdModal').html(result);
+			$.ajax({
+				url: '/Advertisements/PreDelete/'+Id,
+				success: function (result) {
+					$('#deleteAdModal').html(result);
 
 
-		        }
-		    });
-		    $("#deleteAdModal").modal('open');
+				}
+			});
+			$("#deleteAdModal").modal('open');
 		}
 
 		function EditAd(Id) {
@@ -184,15 +189,19 @@
 		}
 
 		function NewAd() {
-			$("#createAdModal").show();
+			
 			$.ajax({
 				url: '/Advertisements/Create/',
 				success: function (result) {
-					$('#createAdBody').html(result);
+					$('#modal1a').html(result);
+
+					$('.modal').modal();
+					$('#modal1a').modal('open');
 
 
 				}
 			});
+		   
 
 		}
 
