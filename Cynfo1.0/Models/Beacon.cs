@@ -20,7 +20,7 @@ namespace Cynfo1._0.Models
 
         [Required]
         [Display(Name = "ID de Area")]
-        public int AreaId { get; set; }
+        public int? AreaId { get; set; }
 
         [Required]
         [Display(Name = "Nombre de Area")]

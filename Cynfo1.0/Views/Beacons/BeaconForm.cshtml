@@ -5,36 +5,83 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Nuevo Beacon</h2>
-
-@using (Html.BeginForm("Save", "Beacons"))
-{
-    @Html.ValidationSummary("Por favor verifique los siguientes errores")
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.MACAddress)
-        @Html.TextBoxFor(m => m.MACAddress, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.MACAddress)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.AreaId)
-        @Html.TextBoxFor(m => m.AreaId, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.AreaId)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.AreaName)
-        @Html.TextBoxFor(m => m.AreaName, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.AreaName)
-    </div>
-    @Html.HiddenFor(m => m.Id)
-    @Html.AntiForgeryToken()
-
-    <button type="submit" class="btn btn-primary">Guardar</button>
+<div class="container">
+    @using (Html.BeginForm("Save", "Beacons",FormMethod.Post, new { enctype = "multipart/form-data", id = "areaForm", @class = "" }))
+    {
+        <div class="w3-container card row">
+            <h2 class="">Nuevo Beacon</h2>
 
 
-}
+            @Html.ValidationSummary("Por favor verifique los siguientes errores")
+            
+
+                <div class="form-group input-field col s6">
+                    @Html.LabelFor(m => m.AreaName)
+                    @Html.TextBoxFor(m => m.AreaName, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(m => m.AreaName)
+                </div>
+
+                <div class="form-group input-field col s6">
+                    @Html.LabelFor(m => m.AreaId)
+                    @Html.TextBoxFor(m => m.AreaId, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(m => m.AreaId)
+                </div>
+               
+            <div class="form-group input-field col s12">
+                @Html.LabelFor(m => m.MACAddress)
+                @Html.TextBoxFor(m => m.MACAddress, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.MACAddress)
+            </div>
+            
+            <div class="file-field input-field col s12">
+
+                <div class="btn">
+                    <span>Imagen</span>
+                    <input type="file" name="photo" id="photo" data-val="true" data-allowed-file-extensions='["jpeg", "png"]' data-val-required="La imagen es obligatoria">
+
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" placeholder="Selecciona la imagen que identifica esta area">
+                </div>
+                <!-- <span class="field-validation-valid" data-valmsg-for="photo" data-valmsg-replace="true"></span>-->
+            </div>
+
+            <div class="input-field col s12">
+                <select>
+                    <option value="" disabled selected>Choose your option</option>
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="3">Option 3</option>
+                </select>
+                <label>Materialize Select</label>
+            </div>
+            
+            @Html.HiddenFor(m => m.Id)
+            @Html.AntiForgeryToken()
+
+            <button type="submit" class="btn btn-flat">Guardar</button>
+            <a href="/Beacons/" class="btn btn-flat w3-text-red">Cancelar</a>
+
+
+
+        </div>
+    }
+</div>
 
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
+
+    
+    <script>
+
+        $(document).ready(function () {
+
+            $.getScript('/scripts/materialize.min.js');
+            $('select').material_select();
+            
+        });
+
+
+    </script>
 }

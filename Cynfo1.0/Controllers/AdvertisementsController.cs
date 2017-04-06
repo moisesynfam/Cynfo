@@ -6,6 +6,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.WebPages;
 using Cynfo1._0.App_Start;
 using Cynfo1._0.AzureUtils;
 using Cynfo1._0.Models;
@@ -127,8 +128,27 @@ namespace Cynfo1._0.Controllers
                 Advertisement = new Advertisement(),
                 Beacons = beacons.ToList()
             };
-
+            @ViewBag.AdFormTitle = "Nuevo Anuncio";
             return PartialView("_AdvertisementsFormPartial",viewModel);
+
+        }
+
+
+        public ActionResult New()
+        {
+
+            var activeUser = GetActiveUser();
+
+            var beacons = from b in _context.Beacons
+                          where b.BussinessId.Equals(activeUser.CompanyIdentifier)
+                          select b;
+            var viewModel = new AdFormViewModel()
+            {
+                Advertisement = new Advertisement(),
+                Beacons = beacons.ToList()
+            };
+
+            return PartialView("AdvertisementsForm", viewModel);
 
         }
 
@@ -176,30 +196,34 @@ namespace Cynfo1._0.Controllers
                
                 adInDb.Title = advertisement.Title;
                 adInDb.UploadedDate = DateTime.UtcNow;
+                
 
             }
             await _context.SaveChangesAsync();
 
             //var adInDB = _context.Advertisements.ToList().LastOrDefault();
 
+
+
+            var fbAd = new FBAd
+            {
+                description = advertisement.Description,
+                id = advertisement.Id,
+                imageURL = advertisement.MediaURL,
+                title = advertisement.Title
+            };
+            if (fbAd.imageURL.IsEmpty())
+            {
+                fbAd.imageURL = "empty";
+            }
+
+            //fbAd.category = _context.Beacons.SingleOrDefault(b => b.Id == adInDB.BeaconId).AreaId;
+            //fbAd.publishedDate = adInDB.UploadedDate;
+
             
 
-                var fbAd = new FBAd();
 
-
-                //fbAd.category = _context.Beacons.SingleOrDefault(b => b.Id == adInDB.BeaconId).AreaId;
-                fbAd.description = advertisement.Description;
-                fbAd.id = advertisement.Id;
-                fbAd.imageURL = advertisement.MediaURL;
-                //fbAd.publishedDate = adInDB.UploadedDate;
-                fbAd.title = advertisement.Title;
-               
-                
-
-
-
-
-                SetResponse response = await FirebaseInit.Firebaseclient.SetAsync("businessTest/" + advertisement.CompanyID+"/areas/"
+            SetResponse response = await FirebaseInit.Firebaseclient.SetAsync("businessTest/" + advertisement.CompanyID+"/areas/"
                                                 +"ar"+advertisement.CompanyID+advertisement.BeaconId+"/ads/"
                                                 +"ad"+ advertisement.BeaconId+advertisement.Id, fbAd);
             
@@ -227,7 +251,7 @@ namespace Cynfo1._0.Controllers
                 Beacons = beacons
             
             };
-
+            @ViewBag.AdFormTitle = "Editar Anuncio";
             return PartialView("_AdvertisementsFormPartial", viewModel);
         }
 
@@ -264,8 +288,11 @@ namespace Cynfo1._0.Controllers
 
             _context.Advertisements.Remove(advertisement);
             _context.SaveChanges();
-           // FirebaseResponse response = await FBclient.DeleteAsync("Ads_test/" + id);
-            
+            // FirebaseResponse response = await FBclient.DeleteAsync("Ads_test/" + id);
+            FirebaseResponse response = await FirebaseInit.Firebaseclient.DeleteAsync("businessTest/" + advertisement.CompanyID + "/areas/"
+                                                 + "ar" + advertisement.CompanyID + advertisement.BeaconId + "/ads/"
+                                                 + "ad" + advertisement.BeaconId + advertisement.Id);
+
 
             return RedirectToAction("Index");
 

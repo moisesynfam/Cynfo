@@ -7,47 +7,51 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<h2>Beacons & Areas</h2>
+<div class="container row" id="main_content">
+    <h2>Beacons & Areas</h2>
 
-<a href="@Url.Action("Create","Beacons")" class="btn btn-primary">Nuevo</a>
-<br/>
-<br/>
-@if (!Model.Any())
-{
-    <p>
-        No se ha agregado ningun Beacon aun.
-    </p>
-}
-else
-{
-    <table id ="beacons-table"class="table  w3-border w3-hoverable w3-card-4 w3-white">
-        <thead>
-            <tr class="w3-cyan">
-                <th>Area</th>
-                <th>ID Area</th>
-                <th>Beacon Asignado</th>
-                <th>Editar</th>
-                <th>Borrar</th>
-            </tr>
-        <tbody>
-            @foreach (var beacon in Model)
-            {
-                    <tr>
-                        <td>@beacon.AreaName</td>
-                        <td>@beacon.AreaId</td>
-                        <td>@beacon.MACAddress</td>
-                        <td><a href="@Url.Action("Edit", "Beacons", new {id = beacon.Id})"><i class="fa fa-pencil-square-o fa-3x fa-fw"></i></a></td>
-                        <td><a data-beacon-id="@beacon.Id" class="js-delete"><i class="fa fa-times fa-3x fa-fw"></i></a></td>
-
+    <a href="@Url.Action("Create","Beacons")" class="btn accent-color waves-effect waves-light right-align">Nueva Area</a>
+    <br />
+    <br />
+    @if (!Model.Any())
+    {
+        <p>
+            No se ha agregado ningun Beacon aun.
+        </p>
+    }
+    else
+    {
+        <div class="w3-container card">
+            <table id="beacons-table" class="table bordered highlight centered">
+                <thead>
+                    <tr class="">
+                        <th>Area</th>
+                        <th>ID Area</th>
+                        <th>Beacon Asignado</th>
+                        <th>Editar</th>
+                        <th>Borrar</th>
                     </tr>
-              
+                <tbody>
+                    @foreach (var beacon in Model)
+                {
+                        <tr class="secondary-text-color">
+                            <td>@beacon.AreaName</td>
+                            <td>@beacon.AreaId</td>
+                            <td>@beacon.MACAddress</td>
+                            <td><a href="@Url.Action("Edit", "Beacons", new {id = beacon.Id})"><i class="material-icons w3-text-green">mode_edit</i></a></td>
+                            <td><a data-beacon-id="@beacon.Id" class="js-delete"><i class="material-icons w3-text-red">delete</i></a></td>
 
-            }
-        </tbody>
-    </table>
-}
-<br/>
+                        </tr>
 
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    
+
+</div>
 @section scripts
 {
     <script>

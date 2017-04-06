@@ -1,85 +1,124 @@
 ﻿@model Cynfo1._0.ViewModels.AdFormViewModel
 
   
+<style>
+    
+     /* label color */
+   .input-field label {
+     color: #000;
+   }
+   /* label focus color */
+   .input-field input[type=text]:focus + label {
+     color: #000;
+   }
+   /* label underline focus color */
+   .input-field input[type=text]:focus {
+     border-bottom: 1px solid #000;
+     box-shadow: 0 1px 0 0 #000;
+   }
+   /* valid color */
+   .input-field input[type=text].valid {
+     border-bottom: 1px solid #000;
+     box-shadow: 0 1px 0 0 #000;
+   }
+   /* invalid color */
+   .input-field input[type=text].invalid {
+     border-bottom: 1px solid #000;
+     box-shadow: 0 1px 0 0 #000;
+   }
+   /* icon prefix focus color */
+   .input-field .prefix.active {
+     color: #000;
+   }
+        
+</style>
 
- @using (Html.BeginForm("Save", "Advertisements", FormMethod.Post, new { enctype = "multipart/form-data", id = "adsForm", @class = "" }))
+@using (Html.BeginForm("Save", "Advertisements", FormMethod.Post, new { enctype = "multipart/form-data", id = "adsForm", @class = "" }))
  {
 
-    <div class="modal-content">
-        <div class="w3-container">
-            <br />
-            <div class="input-field">
-                @Html.LabelFor(m => m.Advertisement.Title, htmlAttributes: new { @class = "" })
-                @Html.TextBoxFor(m => m.Advertisement.Title, new { @class = "" })
-                @Html.ValidationMessageFor(m => m.Advertisement.Title)
+     <div class="modal-content ">
+         <h2>@ViewBag.AdFormTitle</h2>
+         <div class="w3-container row">
+             <br/>
+             <div class="input-field col s6">
+                 @Html.LabelFor(m => m.Advertisement.Title, htmlAttributes: new {@class = ""})
+                 @Html.TextBoxFor(m => m.Advertisement.Title, new {@class = ""})
+                 @Html.ValidationMessageFor(m => m.Advertisement.Title)
 
-            </div>
-            <br />
-
-            <div class="input-field">
-                @Html.LabelFor(m => m.Advertisement.ExpirationDate, htmlAttributes: new { @class = "" })
-                @Html.TextBoxFor(m => m.Advertisement.ExpirationDate, new { @class = "", id = "datetimepicker" })
-                @Html.ValidationMessageFor(m => m.Advertisement.ExpirationDate)
-                <br />
-
-            </div>
+             </div>
 
 
-            
+             <div class="input-field col s6">
+                 @Html.LabelFor(m => m.Advertisement.ExpirationDate, htmlAttributes: new {@class = ""})
+                 @Html.TextBoxFor(m => m.Advertisement.ExpirationDate, new {@class = "datepicker"})
+                 
+                 @Html.ValidationMessageFor(m => m.Advertisement.ExpirationDate)        
 
-           
+             </div>
 
-            <div class="input-field">
-                
-              @Html.DropDownListFor(m => m.Advertisement.BeaconId, new SelectList(Model.Beacons, "Id", "AreaName"), "-Seleccione el Area-", new { @class = "" })
-              @Html.ValidationMessageFor(m => m.Advertisement.BeaconId)
+             @if (@ViewBag.AdFormTitle=="Nuevo Anuncio") { 
+             <div class="input-field col s12">
 
-            </div>
-            
-                
+                 @Html.DropDownListFor(m => m.Advertisement.BeaconId, new SelectList(Model.Beacons, "Id", "AreaName"), "-Seleccione el Area-", new {@class = ""})
+                 @Html.ValidationMessageFor(m => m.Advertisement.BeaconId)
 
-           
-           
+             </div>
+                }
 
-            <div class="input-field">
-                @Html.LabelFor(m => m.Advertisement.Description, htmlAttributes: new { @class = "" })
-                @Html.TextAreaFor(m => m.Advertisement.Description, new { @class = "materialize-textarea" })
-                @Html.ValidationMessageFor(m => m.Advertisement.Description)
+             <div class="input-field col s12">
+                 @Html.LabelFor(m => m.Advertisement.Description, htmlAttributes: new {@class = ""})
+                 @Html.TextAreaFor(m => m.Advertisement.Description, new {@class = "materialize-textarea"})
+                 @Html.ValidationMessageFor(m => m.Advertisement.Description)
 
-            </div>
-            
+             </div>
 
-            @if (Model.Advertisement.Id != 0)
-            {
-                
-                <div class="w3-container">
-                    <img src="@Model.Advertisement.MediaURL" class="w3-animate-zoom " alt="Anuncio" style="width: 50%" />
 
+             @if (Model.Advertisement.Id != 0)
+             {
+
+                 <div class="w3-container col s12">
+                     <img src="@Model.Advertisement.MediaURL" class="w3-animate-zoom " alt="Anuncio" style="width: 50%"/>
+
+                 </div>
+                 
+                <div class="file-field input-field col s12">
+                    <div class="btn">
+                        <span>File</span>
+                        <input type="file" name="photo">
+
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text">
+                    </div>
+                   
                 </div>
-                <br />
-                <div class="input-field">
-                    <label class="w3-label w3-theme-text-d4"> Imagen del Anuncio</label>
-                    <input type="file" name="photo" class="file" />
+             }
 
-                </div>
-            }
+             else
+             {
 
-            else
-            {
-                <div class="in">
-                    <label class=""> Imagen del Anuncio</label>
-                    <input type="file" name="photo" class="file" data-val="true" data-allowed-file-extensions='["jpeg", "png"]' data-val-required="La imagen es obligatoria" />
-                    <span class="field-validation-valid" data-valmsg-for="photo" data-valmsg-replace="true"></span>
-                </div>
-            }
-            @Html.HiddenFor(m => m.Advertisement.Id)
-            @Html.AntiForgeryToken()
+                    <div class="file-field input-field col s12">
+                        <div class="btn">
+                            <span>File</span>
+                            <input type="file" name="photo" data-val="true" data-allowed-file-extensions='["jpeg", "png"]' data-val-required="La imagen es obligatoria">
+                            
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text">
+                        </div>
+                        <span class="field-validation-valid" data-valmsg-for="photo" data-valmsg-replace="true"></span>
+                    </div>
+             
+              
+             }
+             @Html.HiddenFor(m => m.Advertisement.Id)
+             @Html.AntiForgeryToken()
 
 
-           
 
-        </div>
-    </div>
+
+         </div>
+     </div>
      <div class="modal-footer">
          <button type="submit" class="modal-action waves-effect waves-green btn btn-flat">Guardar</button>
          <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancelar</a>
@@ -100,7 +139,10 @@
 <script>
     $(document).ready(function () {
         $('select').material_select();
-        $('#datetimepicker').datetimepicker();
+        $('.datepicker').pickadate({
+            selectMonths: true, // Creates a dropdown to control month
+            selectYears: 15 // Creates a dropdown of 15 years to control year
+        });
         $('#adsForm')
             .on('submit',
                 function (e) {
@@ -111,15 +153,7 @@
                     $.validator.unobtrusive.parse(form);
                     if (form.valid()) {
 
-                        var dialog = bootbox.dialog({
-                            message: '<div class="w3-center">' +
-                                '<div class=""><i class="fa fa-cog fa-spin fa-3x fa-fw"></i></div>' +
-                                '<p class="">Espere mientras se publica el anuncio</p>' +
-                                '</div> ',
-                            closeButton: false,
-                            title: '<div class="w3-center">Procesando Anuncio</div>'
-
-                        });
+                      
 
                         var url = $(this).attr("action");;
                         console.log(url);

@@ -3,8 +3,9 @@
 @using Microsoft.AspNet.Identity
 
 
+
 <div class="navbar-fixed">
-    <nav role="navigation" class="w3-teal">
+    <nav role="navigation" class="primary-color">
         <div class="nav-wrapper ">
             
             <ul id="" class="left">
@@ -14,7 +15,7 @@
                 @if (Request.IsAuthenticated)
                 {
                     <li>@Html.ActionLink("Anuncios", "Index", "Advertisements")</li>
-                    <li>@Html.ActionLink("Beacons", "Index", "Beacons")</li>
+                    <li>@Html.ActionLink("Beacons & Areas", "Index", "Beacons")</li>
                 }
                 
 

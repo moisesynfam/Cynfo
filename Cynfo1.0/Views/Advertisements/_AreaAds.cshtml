@@ -7,10 +7,22 @@
     @foreach (var advertisement in Model.Advertisements.Reverse())
     {
 
-        <div class="container col m4" id="card-@advertisement.Id">
+        <div class="container col s4" id="card-@advertisement.Id">
             <div class="card white" style="max-width: 500px;">
                 <div class="card-image">
                     <img src="@advertisement.MediaURL" />
+                    <div class="fixed-action-btn" style="position: absolute; display: inline-block;">
+                        <a class="btn-floating btn-large btn accent-color">
+                            <i class="large material-icons">add</i>
+                        </a>
+                        <ul>
+                            
+                            <li><a onclick="DeleteAd(@advertisement.Id)"class="btn-floating blue btn"><i class="material-icons">delete</i></a></li>
+                            <li><a onclick="EditAd('@advertisement.Id')" class="btn-floating green btn"><i class="material-icons">mode_edit</i></a></li>
+                            
+                        </ul>
+                    </div>
+                   
                    
                 </div>
 
@@ -21,8 +33,9 @@
                     <div data-countdown="@advertisement.ExpirationDate"></div>
 
                 </div>
+                 <!--
                 <div class="card-action">
-                    <a onclick="EditAd('@advertisement.Id')" class="btn  cyan accent-4 waves-effect waves-light">Editar <i class="material-icons right">edit</i></a>
+                    <a onclick="EditAd('@advertisement.Id')" class="btn cyan accent-4 waves-effect waves-light">Editar <i class="material-icons right">edit</i></a>
 
                     <button onclick="DeleteAd(@advertisement.Id)" class="btn cyan accent-4 waves-effect waves-light">Borrar <i class="material-icons right">delete</i></button>
 
@@ -70,29 +83,7 @@
                             });
                 });
 
-            $("#card_container")
-                .on("click",
-                    ".js-delete",
-                    function () {
-                        var button = $(this);
-
-                        bootbox.confirm("Desea eliminar este anuncio?",
-                            function (result) {
-                                if (result) {
-                                    $.ajax({
-                                        url: "/api/advertisements/" + button.attr("data-ad-id"),
-                                        method: "DELETE",
-                                        success: function () {
-                                            $("#card-" + button.attr("data-ad-id")).remove();
-                                        }
-                                    });
-
-                                }
-                            });
-
-
-                    });
-
+            
 
 
 

@@ -21,7 +21,7 @@ namespace Cynfo1._0.Models
 
         public DateTime UploadedDate { get; set; }
 
-        [Display(Name = "Fecha de Expiración")]
+        [Display(Name = "Fecha de expiración")]
         public DateTime? ExpirationDate { get; set; }
 
         public Boolean isExpired { get; set; }
@@ -29,7 +29,7 @@ namespace Cynfo1._0.Models
         public string MediaURL { get; set; }
 
         [Required]
-        [Display(Name = "Area")]
+        [Display(Name = "Area de publicacion")]
         public int BeaconId { get; set; }
 
         public Beacon Beacon { get; set; }

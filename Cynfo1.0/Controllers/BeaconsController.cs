@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
 using Cynfo1._0.App_Start;
+using Cynfo1._0.AzureUtils;
 using Cynfo1._0.FirebaseModels;
 using Cynfo1._0.Models;
 using FireSharp.Response;
@@ -57,7 +58,7 @@ namespace Cynfo1._0.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Save(Beacon beacon)
+        public async Task<ActionResult> Save(Beacon beacon, HttpPostedFileBase photo)
         {
             if (!ModelState.IsValid)
             {
@@ -71,6 +72,8 @@ namespace Cynfo1._0.Controllers
                 var activeUser = userManager.SingleOrDefault(u => u.Id == activeUserId);
                 beacon.BussinessId = activeUser.CompanyIdentifier;
                 beacon.BussinessName = activeUser.CompanyName;
+                PhotoService photoservice = new PhotoService();
+                beacon.AreaMediaUrl = await photoservice.UploadPhotoAsync(photo);
                 _context.Beacons.Add(beacon);
 
           

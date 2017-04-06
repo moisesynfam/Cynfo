@@ -43,22 +43,23 @@
 </nav>
 -->
 
+
 <div class="row">
-	<div class="col m2  s5 l2">
+	<div class="col m3 l2 hide-on-med-and-down">
 		<div class="w3-container w3-center">
 			<br />
-			<button onclick="NewAd()" class="btn-large waves-effect waves-light">Nuevo<i class="material-icons right">add_box</i></button>
+		    <a onclick="NewAd()"  class="btn-large waves-effect waves-light btn accent-color">Nuevo<i class="material-icons right">add_box</i></a>
 
 		</div>
 		<br />
-		<ul class="collapsible " data-collapsible="expandable" style="height: 100%">
+		<ul class="collapsible " data-collapsible="expandable">
 			<li>
-				<div class="collapsible-header active">Areas Creadas</div>
-				<div class="collapsible-body center " style="height: 100%">
+				<div class="collapsible-header active light-primary-color center-align"><b>Areas Creadas</b></div>
+				<div class="collapsible-body center white" style="height: 100%">
 					@foreach (var beacon in Model.Beacons)
 					{
 						<p>
-							<a href="javascript:void(0)" onclick="LoadAds(@beacon.Id,'@beacon.AreaName')" class="btn btn-primary">@beacon.AreaName</a>
+							<a href="javascript:void(0)" onclick="LoadAds(@beacon.Id,'@beacon.AreaName')" class="btn primary-color" style="min-width: 150px">@beacon.AreaName</a>
 						</p>
 					}
 
@@ -68,12 +69,12 @@
 		</ul>
 	</div>
 
-	<div id="main" class="col m10 s7 l10">
+	<div id="main" class="col m9 l10">
 
 		<br />
-		<div class="w3-container teal-text text-darken-1">
-			<h1 class="header">
-			   <b  id="AreaAdTitle"></b>
+		<div class="w3-container">
+			<h1 class="header text-primary">
+			   <b class="" id="AreaAdTitle"></b>
 			</h1>
 			<div class="divider"></div>
 			<br />
@@ -103,38 +104,13 @@
 </div>
 
 
-<div id="modal1a" class="modal modal-fixed-footer">
+<div id="adFormModal" class="modal modal-fixed-footer" style="min-height: 600px">
 	
 </div>
 
-<div id="createAdModal" class="w3-modal">
-	<div class="w3-modal-content w3-card-8 w3-animate-top">
-		<header class="w3-container w3-theme-d4">
-			<span onclick="document.getElementById('createAdModal').style.display = 'none'" class="w3-closebtn">&times;</span>
-			<h2>Nuevo Anuncio</h2>
-		</header>
-		<div id="createAdBody"></div>
-
-	</div>
-</div>
-
-
-<div id="editAdModal" class="w3-modal">
-	<div class="w3-modal-content w3-card-8 w3-animate-top">
-		<header class="w3-container w3-theme-d4">
-			<span onclick="document.getElementById('editAdModal').style.display = 'none'" class="w3-closebtn">&times;</span>
-			<h2>Editar anuncio</h2>
-		</header>
-		<div id="editAdBody">
-
-		</div>
-
-
-	</div>
-</div>
 
 <!-- Modal Structure -->
-<div id="deleteAdModal" class="modal">
+<div id="deleteAdModal" class="modal modal-fixed-footer">
 	
 </div>
 
@@ -176,11 +152,13 @@
 
 		function EditAd(Id) {
 			console.log("edit id " + Id);
-			$("#editAdModal").show();
 			$.ajax({
 				url: '/Advertisements/Edit/' + Id,
 				success: function (result) {
-					$('#editAdBody').html(result);
+				    $('#adFormModal').html(result);
+				    $('.modal').modal();
+				    $('#adFormModal').modal('open');
+				    Materialize.updateTextFields();
 
 				}
 			});
@@ -193,10 +171,9 @@
 			$.ajax({
 				url: '/Advertisements/Create/',
 				success: function (result) {
-					$('#modal1a').html(result);
-
+				    $('#adFormModal').html(result);
 					$('.modal').modal();
-					$('#modal1a').modal('open');
+					$('#adFormModal').modal('open');
 
 
 				}
