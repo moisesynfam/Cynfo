@@ -14,7 +14,7 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 
-<div id="initialArea" data-AreaId="@Model.Beacons.First().Id" data-AreaName="@Model.Beacons.First().AreaName"></div>
+
 
 <!--
 <nav class="w3-sidenav w3-card-4 w3-animate-left w3-white" style="width: 16%" id="mySidenav">
@@ -44,74 +44,98 @@
 -->
 
 
-<div class="row">
-	<div class="col m3 l2 hide-on-med-and-down">
-		<div class="w3-container w3-center">
-			<br />
-		    <a onclick="NewAd()"  class="btn-large waves-effect waves-light btn accent-color">Nuevo<i class="material-icons right">add_box</i></a>
+<div class="w3-row">
 
+	@if (Model.Beacons.Any())
+	{
+		<div id="initialArea" data-AreaId="@Model.Beacons.First().Id" data-AreaName="@Model.Beacons.First().AreaName"></div>
+		<div class="w3-col m3 l2 hide-on-med-and-down ">
+		    <br/>
+
+			<div class="w3-col s12 w3-container">
+				<a href="\Advertisements\New " class="btn-large waves-effect waves-light btn w3-col s12  accent-color">Nuevo<i class="material-icons right">add_box</i></a>
+			</div>
+			
+			<div class="w3-col s12 w3-container">
+				<ul class="collapsible" data-collapsible="expandable">
+					<li>
+						<div class="collapsible-header active orange darken-1 white-text center-align col s12">
+							<b>Areas Creadas</b>
+						</div>
+						<div class="collapsible-body center white" style="height: 100%">
+							@foreach (var beacon in Model.Beacons)
+							{
+								<p>
+									<a href="javascript:void(0)" onclick="LoadAds(@beacon.Id, '@beacon.AreaName')" class="btn btn-block primary-color" style="">@beacon.AreaName</a>
+								</p>
+							}
+
+
+						</div>
+					</li>
+				</ul>
+			</div>
+		  </div>
+
+		<div id="main" class="w3-col m9 l10">
+
+			<br/>
+			<div class="w3-container">
+				<h1 class="header text-primary">
+					<b class="" id="AreaAdTitle"></b>
+				</h1>
+				<div class="divider"></div>
+				<br/>
+			</div>
+
+
+
+			<div class="">
+
+				@if (!Model.Advertisements.Any())
+				{
+					<p>Aun no se ha publicado ningun anuncio</p>
+
+				}
+				else
+				{
+					<div id="adsContent"></div>
+
+
+				}
+			</div>
 		</div>
-		<br />
-		<ul class="collapsible " data-collapsible="expandable">
-			<li>
-				<div class="collapsible-header active light-primary-color center-align"><b>Areas Creadas</b></div>
-				<div class="collapsible-body center white" style="height: 100%">
-					@foreach (var beacon in Model.Beacons)
-					{
-						<p>
-							<a href="javascript:void(0)" onclick="LoadAds(@beacon.Id,'@beacon.AreaName')" class="btn primary-color" style="min-width: 150px">@beacon.AreaName</a>
-						</p>
-					}
+	}
+	else
+	{
 
-
+		<div class="w3-container w3-col s12 ">
+			<div class="card">
+				<div class="card-content">
+					<p class="card-title">Aún no hay Areas</p>
+					<p>
+						Para poder publicar anuncios debe crear las areas donde estos seran mostrados.
+						Diríjase a <a href="\Beacons\" class="w3-hover-text-blue-grey orange-text">Beacons & Areas</a> para agregar una nueva area.
+					</p>
 				</div>
-			</li>
-		</ul>
-	</div>
 
-	<div id="main" class="col m9 l10">
+			</div>
 
-		<br />
-		<div class="w3-container">
-			<h1 class="header text-primary">
-			   <b class="" id="AreaAdTitle"></b>
-			</h1>
-			<div class="divider"></div>
-			<br />
 		</div>
-	  
-		
-		
-		<div class="">
-
-			@if (!Model.Advertisements.Any())
-			{
-				<p>Aun no se ha publicado ningun anuncio</p>
-
-			}
-			else
-			{
-				<div id="adsContent"></div>
+	}
 
 
-
-
-
-			}
-		</div>
-	</div>
-	<!--Modals Section-->
 </div>
 
-
+<!--Modals Section-->
 <div id="adFormModal" class="modal modal-fixed-footer" style="min-height: 600px">
-	
+
 </div>
 
 
 <!-- Modal Structure -->
 <div id="deleteAdModal" class="modal modal-fixed-footer">
-	
+
 </div>
 
 
@@ -119,7 +143,7 @@
 @section scripts
 {
 
-<script src="~/Scripts/materialize.js"></script>
+	<script src="~/Scripts/materialize.js"></script>
 
 	<script>
 
@@ -127,20 +151,20 @@
 		$(document)
 			.ready(function () {
 				var initialData = $("#initialArea")
-				
-				var id =initialData.attr("data-AreaId") 
-				var name =initialData.attr("data-AreaName") 
-				console.log(id + name)
-				LoadAds(id,name )
 
-				
+				var id = initialData.attr("data-AreaId")
+				var name = initialData.attr("data-AreaName")
+				console.log(id + name)
+				LoadAds(id, name)
+
+
 			});
 
 		function DeleteAd(Id) {
 			$('.modal').modal();
-		   
+
 			$.ajax({
-				url: '/Advertisements/PreDelete/'+Id,
+				url: '/Advertisements/PreDelete/' + Id,
 				success: function (result) {
 					$('#deleteAdModal').html(result);
 
@@ -155,10 +179,10 @@
 			$.ajax({
 				url: '/Advertisements/Edit/' + Id,
 				success: function (result) {
-				    $('#adFormModal').html(result);
-				    $('.modal').modal();
-				    $('#adFormModal').modal('open');
-				    Materialize.updateTextFields();
+					$('#adFormModal').html(result);
+					$('.modal').modal();
+					$('#adFormModal').modal('open');
+					Materialize.updateTextFields();
 
 				}
 			});
@@ -167,18 +191,18 @@
 		}
 
 		function NewAd() {
-			
+
 			$.ajax({
 				url: '/Advertisements/Create/',
 				success: function (result) {
-				    $('#adFormModal').html(result);
+					$('#adFormModal').html(result);
 					$('.modal').modal();
 					$('#adFormModal').modal('open');
 
 
 				}
 			});
-		   
+
 
 		}
 

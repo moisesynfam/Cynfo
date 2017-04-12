@@ -6,103 +6,105 @@
 
 }
 
-
+<link rel="stylesheet" href="~/Content/material-datetime-picker.css" />
 <div class="row">
+    
+    
 
-    <div class="container white card col s8 push-s2" id="">
-        @using (Html.BeginForm("Save", "Advertisements", FormMethod.Post, new { enctype = "multipart/form-data", id = "adsForm", @class = "" }))
-        {
-            <div class="w3-container row">
-                <h2>Nuevo Anuncio</h2>
-                <br />
-                <div class="input-field col s6">
-                    @Html.LabelFor(m => m.Advertisement.Title, htmlAttributes: new { @class = "w3-text-blue" })
-                    @Html.TextBoxFor(m => m.Advertisement.Title, new { @class = "color-accent" })
-                    @Html.ValidationMessageFor(m => m.Advertisement.Title)
-
-                </div>
-
-                <div class="input-field col s6">
-                    @Html.LabelFor(m => m.Advertisement.ExpirationDate, htmlAttributes: new { @class = "" })
-                    @Html.TextBoxFor(m => m.Advertisement.ExpirationDate, new { @class = "datepicker" })
-                    @Html.ValidationMessageFor(m => m.Advertisement.ExpirationDate)
-
-
-                </div>
-
-                <div class="input-field col s12">
-
-                    @Html.DropDownListFor(m => m.Advertisement.BeaconId, new SelectList(Model.Beacons, "Id", "AreaName"), "-Seleccione el Area-", new { @class = "" })
-                    @Html.ValidationMessageFor(m => m.Advertisement.BeaconId)
-
-                </div>
-                
-              
-
-                <div class="input-field col s12">
-                    @Html.LabelFor(m => m.Advertisement.Description, htmlAttributes: new { @class = "" })
-                    @Html.TextAreaFor(m => m.Advertisement.Description, new { @class = "materialize-textarea" })
-                    @Html.ValidationMessageFor(m => m.Advertisement.Description)
-
-                </div>
-
-                @if (Model.Advertisement.Id != 0)
-                {
-
-                    <div class="w3-container">
-                        <img src="@Model.Advertisement.MediaURL" class="w3-animate-zoom " alt="Anuncio" style="width: 50%" />
-
-                    </div>
+        <div class="container white card col s8 push-s2" id="">
+            @using (Html.BeginForm("Save", "Advertisements", FormMethod.Post, new { enctype = "multipart/form-data", id = "adsForm", @class = "" }))
+            {
+                <div class="w3-container row">
+                    <h2>Nuevo Anuncio</h2>
                     <br />
-                    <div class="file-field input-field">
-                        <div class="btn">
-                            <span>Imagen</span>
-                            <input type="file" name="photo" data-val="true" data-allowed-file-extensions='["jpeg", "png"]' data-val-required="La imagen es obligatoria">
-                        </div>
-                        <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text" placeholder="Selecciona una imagen">
-                        </div>
+                    <div class="input-field col s6">
+                        @Html.LabelFor(m => m.Advertisement.Title, htmlAttributes: new { @class = "" })
+                        @Html.TextBoxFor(m => m.Advertisement.Title, new { @class = "" })
+                        @Html.ValidationMessageFor(m => m.Advertisement.Title)
 
                     </div>
-                }
 
-                else
+                    <div class="input-field col s6">
+                        @Html.LabelFor(m => m.Advertisement.ExpirationDate, htmlAttributes: new { @class = "" })
+                        @Html.TextBoxFor(m => m.Advertisement.ExpirationDate, new { @class = "datepicker" })
+                        @Html.ValidationMessageFor(m => m.Advertisement.ExpirationDate)
+
+
+                    </div>
+
+                    <div class="input-field col s12">
+
+                        @Html.DropDownListFor(m => m.Advertisement.BeaconId, new SelectList(Model.Beacons, "Id", "AreaName"), "-Seleccione el Area-", new { @class = "" })
+                        @Html.ValidationMessageFor(m => m.Advertisement.BeaconId)
+
+                    </div>
+
+
+
+                    <div class="input-field col s12">
+                        @Html.LabelFor(m => m.Advertisement.Description, htmlAttributes: new { @class = "" })
+                        @Html.TextAreaFor(m => m.Advertisement.Description, new { @class = "materialize-textarea" })
+                        @Html.ValidationMessageFor(m => m.Advertisement.Description)
+
+                    </div>
+
+                    @if (Model.Advertisement.Id != 0)
                 {
-                    <div class="file-field input-field col s12">
-                        <div class="btn">
-                            <span>Imagen</span>
-                            <input type="file" name="photo" data-val="true" data-allowed-file-extensions='["jpeg", "png"]' data-val-required="La imagen es obligatoria">
+
+                        <div class="w3-container">
+                            <img src="@Model.Advertisement.MediaURL" class="w3-animate-zoom " alt="Anuncio" style="width: 50%" />
+
                         </div>
-                        <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text" placeholder="Selecciona una imagen">
+                        <br />
+                        <div class="file-field input-field">
+                            <div class="btn">
+                                <span>Imagen</span>
+                                <input type="file" name="photo" data-val="true" data-allowed-file-extensions='["jpeg", "png"]' data-val-required="La imagen es obligatoria">
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text" placeholder="Selecciona una imagen">
+                            </div>
+
                         </div>
-                        <span class="field-validation-valid" data-valmsg-for="photo" data-valmsg-replace="true"></span>
-                    </div>
-                    <!--
-                    <div class="in">
-                        <label class=""> Imagen del Anuncio</label>
-                        <input type="file" name="photo" class="file" data-val="true" data-allowed-file-extensions='["jpeg", "png"]' data-val-required="La imagen es obligatoria"/>
-                        <span class="field-validation-valid" data-valmsg-for="photo" data-valmsg-replace="true"></span>
-                    </div>
-                    -->
-                }
-                @Html.HiddenFor(m => m.Advertisement.Id)
-                @Html.AntiForgeryToken()
+                    }
+
+                    else
+                    {
+                        <div class="file-field input-field col s12">
+                            <div class="btn">
+                                <span>Imagen</span>
+                                <input type="file" name="photo" data-val="true" data-allowed-file-extensions='["jpeg", "png"]' data-val-required="La imagen es obligatoria">
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text" placeholder="Selecciona una imagen">
+                            </div>
+                            <span class="field-validation-valid" data-valmsg-for="photo" data-valmsg-replace="true"></span>
+                        </div>
+                        <!--
+                        <div class="in">
+                            <label class=""> Imagen del Anuncio</label>
+                            <input type="file" name="photo" class="file" data-val="true" data-allowed-file-extensions='["jpeg", "png"]' data-val-required="La imagen es obligatoria"/>
+                            <span class="field-validation-valid" data-valmsg-for="photo" data-valmsg-replace="true"></span>
+                        </div>
+                        -->
+                    }
+                    @Html.HiddenFor(m => m.Advertisement.Id)
+                    @Html.AntiForgeryToken()
 
 
 
 
-            </div>
+                </div>
 
 
-            <button type="submit" class="modal-action waves-effect waves-green btn btn-flat">Guardar</button>
-            <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancelar</a>
-        }
+                <button type="submit" class="modal-action waves-effect waves-green btn btn-flat">Guardar</button>
+                <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancelar</a>
+            }
+
+        </div>
+
 
     </div>
-
-
-</div>
 
 
 
@@ -110,33 +112,36 @@
 
 @section scripts
 {
-
+  <script src="~/Scripts/moment.js"></script>
+  <script src="~/Scripts/material-datetime-picker.js"></script>
   <script>
 
       $(document).ready(function () {
-          $.getScript('/scripts/materialize.min.js');
+          $.getScript('/scripts/materialize.js');
 
-            $('select').material_select();
-            $('.datepicker').pickadate({
-                selectMonths: true, // Creates a dropdown to control month
-                selectYears: 15 // Creates a dropdown of 15 years to control year
-            });
+          $('select').material_select();
 
+          $('.datepicker').bootstrapMaterialDatePicker({
+              format: 'DD/MM/YYYY hh:mm a',
+              lang: 'fr'
+          });
+           
             $('#adsForm').on('submit', function (e) {
                 var form = $("#adsForm");
                 form.validate();
 
                 if (form.valid()) {
                     e.preventDefault();
-                    var dialog = bootbox.dialog({
-
-                        message: '<div class="w3-center">' +
-                            '<div class=""><i class="fa fa-cog fa-spin fa-3x fa-fw"></i></div>' +
-                            '<p class="">Espere mientras se publica el anuncio</p>' +
-                            '</div> ',
-                        closeButton: false,
-                        title: '<div class="w3-center">Procesando Anuncio</div>'
-
+                    swal({
+                        title: '<h2>Publicando Anuncio</h2>',
+                        html:
+                           '<p>Espere mientras se procesa el anuncio</p><div class="progress"><div class="indeterminate"></div></div>',
+                        width: 600,
+                        showConfirmButton:false,
+                        showCloseButton: false,
+                        showCancelButton: false,
+                        allowEscapeKey: false,
+                        allowOutsideClick: false
                     });
 
                     var url = $(this).attr("action");
@@ -148,8 +153,26 @@
                         data: formData,
                         success: function (resp) {
                             console.log("Created Succesfully");
+                            swal({
+                                title: '<h2>Publicando Anuncion</h2>',
+                                type: 'success',
+                                html:
+                                    '<p>El anuncio fue publicado correctamente.</p>',
+                                showCloseButton: false,
+                                allowOutsideClick: false,
+                                allowEscapeKey: false,
+                                width: 600,
+                               
+                                confirmButtonText:
+                                    'Aceptar'
+                                
+                            }).then(function() {
+                                window.location.href = '/Advertisements/Index';
+                                }
+                                
+                            );
 
-                            window.location.href = '/Advertisements/Index';
+                           
 
                         },
                         contentType: false,

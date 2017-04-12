@@ -20,6 +20,7 @@ namespace Cynfo1._0.Models
 
         [Required]
         [Display(Name = "ID de Area")]
+        [CheckAvailableAreas]
         public int? AreaId { get; set; }
 
         [Required]

@@ -99,10 +99,7 @@ namespace Cynfo1._0.Controllers
                           where a.BeaconId.Equals(id)
                           select a;
 
-            if (!areaAds.Any())
-            {
-                return HttpNotFound();
-            }
+           
 
             var adsViewModel = new AdsViewModel()
             {

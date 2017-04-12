@@ -3,13 +3,25 @@
 }
 
 
-<header class="w3-container w3-center w3-padding-128 w3-card-4" style="color: #fff;background: #80ced6">
-
-        <h1 class="w3-margin w3-jumbo">Bienvenido a <b>Cynfo</b></h1>
-        <p class="w3-xlarge">Presentamos tus Anuncios de manera inteligente</p>
-
-
-    </header>
+<div class="carousel carousel-slider center" data-indicators="true">
+    
+    <div class="carousel-item red white-text" href="#one!">
+        <h2>First Panel</h2>
+        <p class="white-text">This is your first panel</p>
+    </div>
+    <div class="carousel-item amber white-text" href="#two!">
+        <h2>Second Panel</h2>
+        <p class="white-text">This is your second panel</p>
+    </div>
+    <div class="carousel-item green white-text" href="#three!">
+        <h2>Third Panel</h2>
+        <p class="white-text">This is your third panel</p>
+    </div>
+    <div class="carousel-item blue white-text" href="#four!">
+        <h2>Fourth Panel</h2>
+        <p class="white-text">This is your fourth panel</p>
+    </div>
+</div>
 
     <div class="row">
         <div class="col-md-4">
@@ -33,3 +45,16 @@
         </div>
     </div>
 
+@section scripts{
+    
+    <script>
+        $(document).ready(function() {
+            
+            $('.carousel.carousel-slider').carousel({ fullWidth: true });
+
+        });
+
+    </script>
+    
+
+}

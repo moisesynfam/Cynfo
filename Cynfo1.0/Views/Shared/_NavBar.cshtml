@@ -4,12 +4,12 @@
 
 
 
-<div class="navbar-fixed">
-    <nav role="navigation" class="primary-color">
-        <div class="nav-wrapper ">
+<div class="navbar">
+    <nav role="navigation">
+        <div class="nav-wrapper primary-color z-depth-0 ">
             
-            <ul id="" class="left">
-                <li>@Html.ActionLink("Cynfo", "Index", "Home", new { area = "" }, new { @class = "w3-xlarge" })</li>
+            <ul id="" class="left ">
+                <li> @Html.ActionLink("Cynfo", "Index", "Home", new { area = "" }, new { @class = "w3-xxlarge" })</li>
                 <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
 
                 @if (Request.IsAuthenticated)

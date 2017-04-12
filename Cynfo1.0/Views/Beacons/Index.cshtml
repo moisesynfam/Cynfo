@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <div class="container row" id="main_content">
@@ -39,7 +40,7 @@
                             <td>@beacon.AreaId</td>
                             <td>@beacon.MACAddress</td>
                             <td><a href="@Url.Action("Edit", "Beacons", new {id = beacon.Id})"><i class="material-icons w3-text-green">mode_edit</i></a></td>
-                            <td><a data-beacon-id="@beacon.Id" class="js-delete"><i class="material-icons w3-text-red">delete</i></a></td>
+                            <td><a data-beacon-id="@beacon.Id" class="js-delete" href="#"><i class="material-icons w3-text-red">delete</i></a></td>
 
                         </tr>
 
@@ -54,21 +55,54 @@
 </div>
 @section scripts
 {
+    
+   
+    
     <script>
         $(document).ready(function() {
             $("#beacons-table").on("click", ".js-delete", function () {
                 var button = $(this);
-                bootbox.confirm("Desea eliminar este beacon?", function(result) {
-                    if (result) {
-                        $.ajax({    
+
+                swal({
+                        title: '¿Desea eliminar esta area?',
+                        text: "Los cambios no seran revertidos.",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Si ',
+                        cancelButtonText: 'No',
+                        confirmButtonClass: 'btn btn-flat wave-effects waves-green',
+                        cancelButtonClass: 'btn btn-flat wave-effects waves-red',
+                        buttonsStyling: false
+                    })
+                    .then(function () {
+
+                        $.ajax({
                             url: "/api/beacons/" + button.attr("data-beacon-id"),
                             method: "DELETE",
-                            success: function() {
+                            success: function () {
                                 button.parents("tr").remove();
+                                swal(
+                                'Eliminado',
+                                'El area fue eliminada correctamente',
+                                'success'
+                                );
                             }
                         });
-                    }
-                });
+                            
+                        },
+                        function(dismiss) {
+                            // dismiss can be 'cancel', 'overlay',
+                            // 'close', and 'timer'
+                            if (dismiss === 'cancel') {
+                                swal(
+                                    'Cancelled',
+                                    'Your imaginary file is safe :)',
+                                    'error'
+                                );
+                            }
+                        });
+
+      
 
             });
 

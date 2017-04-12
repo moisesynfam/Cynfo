@@ -3,49 +3,60 @@
 
 
 <div class="row" id="card_container">
-    
-    @foreach (var advertisement in Model.Advertisements.Reverse())
+    @if (Model.Advertisements.Any())
     {
+        foreach (var advertisement in Model.Advertisements.Reverse())
+         {
 
-        <div class="container col s4" id="card-@advertisement.Id">
-            <div class="card white" style="max-width: 500px;">
-                <div class="card-image">
-                    <img src="@advertisement.MediaURL" />
-                    <div class="fixed-action-btn" style="position: absolute; display: inline-block;">
-                        <a class="btn-floating btn-large btn accent-color">
-                            <i class="large material-icons">add</i>
-                        </a>
-                        <ul>
-                            
-                            <li><a onclick="DeleteAd(@advertisement.Id)"class="btn-floating blue btn"><i class="material-icons">delete</i></a></li>
-                            <li><a onclick="EditAd('@advertisement.Id')" class="btn-floating green btn"><i class="material-icons">mode_edit</i></a></li>
-                            
-                        </ul>
-                    </div>
-                   
-                   
-                </div>
+             <div class="container col s4" id="card-@advertisement.Id">
+                 <div class="card white" style="max-width: 500px;">
+                     <div class="card-image">
+                         <img src="@advertisement.MediaURL"/>
+                         <div class="fixed-action-btn" style="position: absolute; display: inline-block;">
+                             <a class="btn-floating btn-large btn accent-color">
+                                 <i class="large material-icons">add</i>
+                             </a>
+                             <ul>
 
-                <div class="card-content">
-                    <span class="card-title">@advertisement.Title</span>
-                    <p>@advertisement.Description</p>
-                    <h4><b>Vence en:</b></h4>
-                    <div data-countdown="@advertisement.ExpirationDate"></div>
+                                 <li><a onclick="DeleteAd(@advertisement.Id)"class="btn-floating blue btn"><i class="material-icons">delete</i></a></li>
+                                 <li><a onclick="EditAd('@advertisement.Id')" class="btn-floating green btn"><i class="material-icons">mode_edit</i></a></li>
 
-                </div>
-                 <!--
-                <div class="card-action">
-                    <a onclick="EditAd('@advertisement.Id')" class="btn cyan accent-4 waves-effect waves-light">Editar <i class="material-icons right">edit</i></a>
+                             </ul>
+                         </div>
 
-                    <button onclick="DeleteAd(@advertisement.Id)" class="btn cyan accent-4 waves-effect waves-light">Borrar <i class="material-icons right">delete</i></button>
 
-                </div>
-                <!-- <a href="@Url.Action("Edit", "Advertisements", new { id = advertisement.Id })" class="w3-btn-block w3-btn w3-teal m6 w3-col">Editar</a> -->
+                     </div>
 
-            </div>
+                     <div class="card-content">
+                         <span class="card-title">@advertisement.Title</span>
+                         <p>@advertisement.Description</p>
+                         <h4><b>Vence en:</b></h4>
+                         <div data-countdown="@advertisement.ExpirationDate"></div>
 
-        </div>
+                     </div>
+                     <!--
+                     <div class="card-action">
+                         <a onclick="EditAd('@advertisement.Id')" class="btn cyan accent-4 waves-effect waves-light">Editar <i class="material-icons right">edit</i></a>
+
+                         <button onclick="DeleteAd(@advertisement.Id)" class="btn cyan accent-4 waves-effect waves-light">Borrar <i class="material-icons right">delete</i></button>
+
+                     </div>
+                     <!-- <a href="@Url.Action("Edit", "Advertisements", new {id = advertisement.Id})" class="w3-btn-block w3-btn w3-teal m6 w3-col">Editar</a> -->
+
+                 </div>
+
+             </div>
+         }
     }
+    else
+    {
+        <div class="w3-container">
+            <p>Aun no se ha publicado ningún anuncio en esta area.</p>
+        </div>
+       
+
+    }
+
 </div>
 
 

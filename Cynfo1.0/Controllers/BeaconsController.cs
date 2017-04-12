@@ -65,11 +65,12 @@ namespace Cynfo1._0.Controllers
                 return View("BeaconForm", beacon);
             }
 
+            var userManager = _context.Users;
+            string activeUserId = User.Identity.GetUserId();
+            var activeUser = userManager.SingleOrDefault(u => u.Id == activeUserId);
             if (beacon.Id == 0)
             {
-                var userManager = _context.Users;
-                string activeUserId = User.Identity.GetUserId();
-                var activeUser = userManager.SingleOrDefault(u => u.Id == activeUserId);
+                
                 beacon.BussinessId = activeUser.CompanyIdentifier;
                 beacon.BussinessName = activeUser.CompanyName;
                 PhotoService photoservice = new PhotoService();
@@ -85,11 +86,11 @@ namespace Cynfo1._0.Controllers
                 beaconInDb.AreaName = beacon.AreaName;
                 beaconInDb.MACAddress = beacon.MACAddress;
                 beaconInDb.AreaMediaUrl = beacon.AreaMediaUrl;
-                beaconInDb.BussinessId = beacon.BussinessId;
-                beaconInDb.BussinessName = beacon.BussinessName;
+                beaconInDb.BussinessId = activeUser.CompanyIdentifier;
+                beaconInDb.BussinessName = activeUser.CompanyName;
 
 
-              
+
 
             }
             _context.SaveChanges();
