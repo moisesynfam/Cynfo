@@ -7,6 +7,19 @@
     <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
    
     @Styles.Render("~/Content/css")
+    <style>
+        body {
+            font-family: Roboto;
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
+
+    </style>
    
     
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -26,47 +39,79 @@
 
 
 
-@Html.Partial("_NavBar")
-<div class="">
-    @RenderBody()
+    @Html.Partial("_NavBar")
+    <main class="">
+        @RenderBody()
 
-</div>
+    </main>
     <!-- Login Modal Structure -->
     <div id="modal1" class="modal" style="min-width: 300px; max-width: 600px">
         <div class="modal-content" id="loginModalContent">
-          
+
         </div>
 
     </div>
-<hr/>
 
-<footer>
-    <p>&copy; @DateTime.Now.Year - Cynfo WebApp</p>
-</footer>
+
+    <footer class="page-footer primary-color">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Cynfo</h5>
+                    <p class="grey-text text-lighten-4 w3-justify">
+                        Es una plataforma desarrollada por estudiantes de la carrera de Ingeniería Telemática como proyecto final de grado en la 
+                        Pontificia Universidad Católica Madre y Maestra, en la cidudad de Santiago de los Caballeros, República Dominicana. 
+                    </p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">Enlaces</h5>
+                    <ul>
+                        <li><a class="grey-text text-lighten-3" href="#!">Acerca de</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#!">Contactos</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#!">PUCMM</a></li>
+
+                    </ul>
+                    <a href="https://twitter.com/MoisesYnfam" class="twitter-follow-button" data-show-count="false">Follow @@MoisesYnfam</a>
+                    <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright dark-primary-color">
+            <div class="container">
+                © 2017 Cynfo Platform
+                <a class="grey-text text-lighten-4 right" href="#!">Más Enlaces</a>
+            </div>
+        </div>
+    </footer>
+
+
 <script src="~/Scripts/jquery-3.1.1.js"></script>
-<script src="~/Scripts/materialize.js"></script>
-@Scripts.Render("~/bundles/modernizr")
-<script src="~/Scripts/sweetalert2.js"></script>
+    <script src="~/Scripts/materialize.js"></script>
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Scripts/sweetalert2.js"></script>
 
 
-<script>
-$(document).ready(function () {
-    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-    $('.modal').modal();
+    <script>
+        $(document).ready(function () {
+            // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+            $('.modal').modal();
 
-    $.ajax({
-        url: '/Account/LoginPartial',
-        success: function (result) {
-            $('#loginModalContent').html(result);
+            $.ajax({
+                url: '/Account/LoginPartial',
+                success: function (result) {
+                    $('#loginModalContent').html(result);
 
-        }
-    });
-  });
+                }
+            });
+        });
 
 
     </script>
-@RenderSection("scripts", required: false)
-    
-    
+    @RenderSection("scripts", required: false)
+
+
+
 </body>
+
+
 </html>

@@ -520,6 +520,15 @@
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\img\altbeacon.png" />
+    <Content Include="Content\img\Cynfo icon C.png" />
+    <Content Include="Content\img\Cynfo icon.png" />
+    <Content Include="Content\img\cynfo-app.png" />
+    <Content Include="Content\img\cynfo-bkg.jpg" />
+    <Content Include="Content\img\cynfo-bkg2.jpg" />
+    <Content Include="Content\img\cynfo.png" />
+    <Content Include="Content\img\radbeacon-dot.png" />
+    <Content Include="Content\img\radius.png" />
     <Content Include="Content\material-datetime-picker.css" />
     <Content Include="Content\materialize.css" />
     <Content Include="Content\materialize.min.css" />
