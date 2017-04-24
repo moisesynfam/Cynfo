@@ -249,7 +249,7 @@ namespace Cynfo1._0.Controllers
             
             };
             @ViewBag.AdFormTitle = "Editar Anuncio";
-            return PartialView("_AdvertisementsFormPartial", viewModel);
+            return View("AdvertisementsForm", viewModel);
         }
 
         public ActionResult PreDelete(int? id)
@@ -286,7 +286,7 @@ namespace Cynfo1._0.Controllers
             _context.Advertisements.Remove(advertisement);
             _context.SaveChanges();
             // FirebaseResponse response = await FBclient.DeleteAsync("Ads_test/" + id);
-            FirebaseResponse response = await FirebaseInit.Firebaseclient.DeleteAsync("businessTest/" + advertisement.CompanyID + "/areas/"
+            FirebaseResponse response = await FirebaseInit.Firebaseclient.DeleteAsync("database/" + advertisement.CompanyID + "/areas/"
                                                  + "ar" + advertisement.CompanyID + advertisement.BeaconId + "/ads/"
                                                  + "ad" + advertisement.BeaconId + advertisement.Id);
 
