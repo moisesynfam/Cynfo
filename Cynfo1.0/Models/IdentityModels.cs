@@ -25,6 +25,8 @@ namespace Cynfo1._0.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CompanyIdentifier  { get; set; }
 
+        public MembershipType MembershipType { get; set; }
+        public byte MembershipTypeId { get; set; }
         public string COmpanyDpUrl { get; set; }
         
         
@@ -34,6 +36,7 @@ namespace Cynfo1._0.Models
     {
         public DbSet<Advertisement> Advertisements { get; set; }
         public DbSet<Beacon> Beacons { get; set; }
+        public DbSet<MembershipType> MembershipTypes { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

@@ -8,7 +8,7 @@
 
         <ul class="">
             <li>
-                @Html.ActionLink("Hola " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                @Html.ActionLink("Hola " + User.Identity.Name + "!", "Index", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
             </li>
             @if (User.IsInRole(UserRoles.GeneralAdmin))
             {
@@ -20,13 +20,15 @@
 }
 else
 {
-   <a class="waves-effect waves-light " href="#modal1">Iniciar Sesión</a>
+    <ul class="">
+        <li><a class="waves-effect waves-light " href="#modal1">Iniciar Sesión</a></li>
+        <li>@Html.ActionLink("Registrar Negocio", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+     </ul>
 
-  
-   
 
 
 
-}
+
+        }
 
 

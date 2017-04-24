@@ -62,6 +62,12 @@ namespace Cynfo1._0.Models
         public bool RememberMe { get; set; }
     }
 
+    public class AccountViewModel
+    {
+        public ApplicationUser ApplicationUser { get; set; }
+        public MembershipType MembershipType { get; set; }
+    }
+
     public class RegisterViewModel
     {
 
@@ -85,6 +91,8 @@ namespace Cynfo1._0.Models
         [Display(Name = "Confirmar contraseña")]
         [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
         public string ConfirmPassword { get; set; }
+
+        public byte MembershipTypeId { get; set; }
     }
 
     public class ResetPasswordViewModel

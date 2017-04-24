@@ -99,7 +99,9 @@ namespace Cynfo1._0.Controllers
             {
                 name = beacon.AreaName,
                 backgroundImage = beacon.AreaMediaUrl,
-                id_Minor = beacon.AreaId
+                id_Minor = beacon.AreaId,
+                greetingMessage = beacon.GreetingMessage
+                
             };
 
             if (fBarea.backgroundImage.IsEmpty())
@@ -108,7 +110,7 @@ namespace Cynfo1._0.Controllers
 
 
             }
-            SetResponse response = await FirebaseInit.Firebaseclient.SetAsync("businessTest/" + beacon.BussinessId +
+            SetResponse response = await FirebaseInit.Firebaseclient.SetAsync("database/" + beacon.BussinessId +
                    "/areas/" + "ar" + beacon.BussinessId + beacon.Id, fBarea);
 
 

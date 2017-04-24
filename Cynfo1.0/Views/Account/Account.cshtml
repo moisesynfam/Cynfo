@@ -1,0 +1,30 @@
+﻿@model Cynfo1._0.Models.AccountViewModel
+@{
+    ViewBag.Title = "Account";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row w3-container ">
+    <div class="card col s8 w3-container offset-s2">
+
+        <div class="card-title col s12">
+            <h2>Información de su cuenta</h2>
+        </div>
+        <hr />
+
+        <div class="card-content">
+
+            <h3>Nombre de la Empresa</h3> <h4 class=""><b>@Model.ApplicationUser.CompanyName</b></h4>
+            <h3>Identificador de la Empresa</h3> <h4><b>@Model.ApplicationUser.CompanyIdentifier</b></h4> 
+            <h3>Tipo de Membresía</h3><h4><b>@Model.MembershipType.Name</b></h4>
+
+            <hr/>
+            <a href="/Manage/" class="btn btn-block orange">Administrar Cuenta</a>
+        </div>
+
+    </div>
+
+
+</div>
+
+

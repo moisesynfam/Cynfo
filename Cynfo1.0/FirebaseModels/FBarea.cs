@@ -9,7 +9,8 @@ namespace Cynfo1._0.FirebaseModels
     {
         public int? id_Minor { get; set; }
         public string name { get; set; }
-        public string backgroundImage { get; set; } 
+        public string backgroundImage { get; set; }
+        public string greetingMessage { get; set; }
 
 
 

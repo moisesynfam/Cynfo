@@ -17,6 +17,7 @@ using FireSharp;
 using FireSharp.Response;
 using Microsoft.AspNet.Identity.EntityFramework;
 
+
 namespace Cynfo1._0.Controllers
 {
     [Authorize]
@@ -24,10 +25,13 @@ namespace Cynfo1._0.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext _context;
 
         public AccountController()
         {
+            _context = new ApplicationDbContext();
         }
+
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
@@ -151,24 +155,47 @@ namespace Cynfo1._0.Controllers
 
         //
         // GET: /Account/Register
-        
+        [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
         }
 
-       
+        private ApplicationUser GetActiveUser()
+        {
+
+            var userManager = _context.Users;
+            string activeUserId = User.Identity.GetUserId();
+            var activeUser = userManager.SingleOrDefault(u => u.Id == activeUserId);
+
+            return activeUser;
+
+        }
+
+        public async Task<ActionResult> Index()
+        {
+            var activeUser = GetActiveUser();
+            var membership = _context.MembershipTypes.SingleOrDefault(m => m.Id == activeUser.MembershipTypeId);
+           
+            var ViewModel = new AccountViewModel()
+            {
+                ApplicationUser = activeUser,
+                MembershipType = membership
+            };
+            return View("Account", ViewModel);
+
+        }
 
         //
         // POST: /Account/Register
         [HttpPost]
-        [Authorize(Roles = UserRoles.GeneralAdmin)]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, CompanyName = model.CompanyName};
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, CompanyName = model.CompanyName, MembershipTypeId = model.MembershipTypeId};
 
                 var result = await UserManager.CreateAsync(user, model.Password);
 
@@ -186,11 +213,11 @@ namespace Cynfo1._0.Controllers
                     {
                         fBbusiness.backgroundImage = "empty";
                     }
-                    SetResponse response = await FirebaseInit.Firebaseclient.SetAsync("businessTest/" + fBbusiness.id_Major, fBbusiness);
+                    SetResponse response = await FirebaseInit.Firebaseclient.SetAsync("database/" + fBbusiness.id_Major, fBbusiness);
                     Debug.WriteLine("User Created "+user.CompanyIdentifier);
 
 
-                //wait SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // Para obtener más información sobre cómo habilitar la confirmación de cuenta y el restablecimiento de contraseña, visite http://go.microsoft.com/fwlink/?LinkID=320771
                     // Enviar correo electrónico con este vínculo
@@ -198,7 +225,7 @@ namespace Cynfo1._0.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirmar cuenta", "Para confirmar la cuenta, haga clic <a href=\"" + callbackUrl + "\">aquí</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Account");
                 }
                 AddErrors(result);
             }

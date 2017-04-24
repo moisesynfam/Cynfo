@@ -11,7 +11,7 @@ namespace Cynfo1._0.Models
         public int Id { get; set; }
 
         [Required]
-        [Display(Name = "Direccion MAC")]
+        [Display(Name = "Dirección MAC")]
         public string MACAddress { get; set; }
 
         public int BussinessId { get; set; }
@@ -27,7 +27,11 @@ namespace Cynfo1._0.Models
         [Display(Name = "Nombre de Area")]
         public string AreaName { get; set; }
 
+        
         public string AreaMediaUrl { get; set; }
+
+        [Display(Name = "Mensaje de bienvenida")]
+        public string GreetingMessage { get; set; }
 
     }
 }

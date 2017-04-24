@@ -6,54 +6,125 @@
 <h2></h2>
 
 <div class="row">
-    
+
     <div class="col s12 m8 offset-m2">
-        <div class="card white">
-            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
-            {
-                <div class="card-content black-text">
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "col s12", role = "form" }))
+        {
+            <div class="card white col s12">
+
+                <div class="card-content black-text row col s12">
                     <span class="card-title">@ViewBag.Title.</span>
 
                     @Html.AntiForgeryToken()
-                    <h4>Cree una cuenta nueva para el Negocio.</h4>
-                    <hr/>
-                    @Html.ValidationSummary("", new {@class = "text-danger"})
+                    <h4>Cree una cuenta nueva para su negocio.</h4>
+                    <hr />
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
 
-                    <div class="input-field">
-                        @Html.LabelFor(m => m.CompanyName, new {@class = ""})
-                        @Html.TextBoxFor(m => m.CompanyName, new {@class = ""})
-
-                    </div>
-
-                    <div class="input-field">
-                        @Html.LabelFor(m => m.Email, new {@class = ""})
-                        @Html.TextBoxFor(m => m.Email, new {@class = ""})
-
-                    </div>
-                    <div class="input-field">
-                        @Html.LabelFor(m => m.Password, new {@class = ""})
-                        @Html.PasswordFor(m => m.Password, new {@class = ""})
-
-                    </div>
-                    <div class="input-field">
-                        @Html.LabelFor(m => m.ConfirmPassword, new {@class = ""})
-                        @Html.PasswordFor(m => m.ConfirmPassword, new {@class = ""})
+                    <div class="input-field col s6">
+                        @Html.LabelFor(m => m.CompanyName, new { @class = "" })
+                        @Html.TextBoxFor(m => m.CompanyName, new { @class = "" })
 
                     </div>
 
+                    <div class="input-field col s6">
+                        @Html.LabelFor(m => m.Email, new { @class = "" })
+                        @Html.TextBoxFor(m => m.Email, new { @class = "" })
 
+                    </div>
+                    <div class="input-field col s6">
+                        @Html.LabelFor(m => m.Password, new { @class = "" })
+                        @Html.PasswordFor(m => m.Password, new { @class = "" })
 
+                    </div>
+                    <div class="input-field col s6">
+                        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "" })
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "" })
 
-                </div>
-                <div class="card-action">
-                    <div class="form-group">
-                        <div class="col-md-offset-4 col-md-8">
-                            <input type="submit" class="btn btn-default" value="Registrar"/>
+                    </div>
+
+                    <hr />
+                    <div class="w3-container col s4">
+                        <div class="card">
+                            <div class="w3-container">
+                                
+                                <h4 class="w3-center">Grandes Empresas</h4>
+                                <hr/>
+                                <h4>
+                                    RD$ 5000/mes
+                                </h4>
+                                <ul>
+                                    <li>Publicar hasta 200 anuncios</li>
+                                    <li>4 Beacons Gratis</li>
+
+                                </ul>
+                                <div class="w3-container w3-center">
+                                    <input name="MembershipTypeId" type="radio" id="MembershipType1" value="1" />
+                                    <label for="MembershipType1"></label>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
+
+                    <div class="w3-container col s4">
+                        <div class="card">
+                            <div class="w3-container">
+
+                                <h4 class="w3-center">Medianas Empresas</h4>
+                                <hr />
+                                <h4>
+                                    RD$ 2300/mes
+                                </h4>
+                                <ul>
+                                    <li>Publicar hasta 50 anuncios</li>
+                                    <li>2 Beacons Gratis</li>
+
+                                </ul>
+                                <div class="w3-container w3-center">
+                                    <input name="MembershipTypeId" type="radio" id="MembershipType2" value="2" />
+                                    <label for="MembershipType2"></label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="w3-container col s4">
+                        <div class="card">
+                            <div class="w3-container">
+
+                                <h4 class="w3-center">Pequeñas Empresas</h4>
+                                <hr />
+                                <h4>
+                                    RD$ 1500/mes
+                                </h4>
+                                <ul>
+                                    <li>Publicar hasta 200 anuncios</li>
+                                    <li>4 Beacons Gratis</li>
+
+                                </ul>
+                                <div class="w3-container w3-center">
+                                    <input name="MembershipTypeId" type="radio" id="MembershipType3" value="3" />
+                                    <label for="MembershipType3"></label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+
+
+
+
                 </div>
-            }
-        </div>
+                <div class="input-field col s12 w3-container">
+                    <input type="submit" class="btn orange btn-block" style="width: 100%" value="Registrar" />
+                    <br />
+                </div>
+
+            </div>
+        }
     </div>
 
 </div>
@@ -63,5 +134,13 @@
 
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryval");
+
+    <script>
+        $(document).ready(function () {
+            $.getScript('/scripts/materialize.js');
+        });
+
+    </script>
+
 }

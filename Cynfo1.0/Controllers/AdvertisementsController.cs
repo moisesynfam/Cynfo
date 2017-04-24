@@ -220,7 +220,7 @@ namespace Cynfo1._0.Controllers
             
 
 
-            SetResponse response = await FirebaseInit.Firebaseclient.SetAsync("businessTest/" + advertisement.CompanyID+"/areas/"
+            SetResponse response = await FirebaseInit.Firebaseclient.SetAsync("database/" + advertisement.CompanyID+"/areas/"
                                                 +"ar"+advertisement.CompanyID+advertisement.BeaconId+"/ads/"
                                                 +"ad"+ advertisement.BeaconId+advertisement.Id, fbAd);
             
